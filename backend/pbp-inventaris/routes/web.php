@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('/user', function () {
+        return auth()->user();
+    });
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
