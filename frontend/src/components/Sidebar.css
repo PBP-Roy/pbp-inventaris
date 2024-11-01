@@ -1,11 +1,94 @@
-body {
+/* body {
   margin: 0;
   padding: 0;
-}
+} */
 
 .Sidebar {
   height: 100%;
   width: 250px;
   position: fixed;
-  background-color: aquamarine;
+  background-color: white;
+}
+
+.SidebarHeader {
+  height: 120px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SidebarHeader #SidebarLogo {
+  height: 85px;
+  width: 85px;
+  display: grid;
+}
+
+#ImageLogo {
+  height: 100%;
+  width: 100%;
+}
+
+#SidebarTitle {
+  color: black;
+  font-family: "Times New Roman", Times, serif;
+  width: 130px;
+  font-weight: 900;
+}
+
+.SidebarList {
+  height: auto;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.SidebarList .row {
+  width: 100%;
+  height: 50px;
+  /* border: 1px solid black; */
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  color: grey;
+  justify-content: center;
+  align-items: center;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.SidebarList #active {
+  color: #007aff;
+}
+
+.SidebarList .row:hover {
+  cursor: pointer;
+  background-color: rgba(245, 245, 245, 0.944);
+}
+
+.row #icon {
+  flex: 30%;
+  display: grid;
+  place-items: center;
+}
+
+.row #title {
+  flex: 70%;
+  display: grid;
+  justify-content: start;
+}
+
+.SidebarChildren {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.SidebarChildren .child-row {
+  padding: 10px 0;
+  color: grey;
+}
+
+.SidebarChildren .child-row:hover {
+  cursor: pointer;
+  background-color: rgba(245, 245, 245, 0.944);
 }
