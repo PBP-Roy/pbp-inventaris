@@ -14,8 +14,9 @@ class CreateMagnitudesTable extends Migration
     public function up()
     {
         Schema::create('magnitudes', function (Blueprint $table) {
-            $table->id('magnitudes_id');
-            $table->string('name');
+            $table->bigIncrements('magnitudes_id');
+            $table->string('name_magnitudes');
+            $table->foreignId('users_id')->constrained('users', 'users_id');
             $table->timestamps();
         });
     }

@@ -14,13 +14,13 @@ class CreateItemsTable extends Migration
     public function up()
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->id('items_id');
-            $table->foreignId('category_id')->constrained();
-            $table->foreignId('magnitude_id')->constrained();
-            $table->string('name');
+            $table->bigIncrements('items_id');
+            $table->foreignId('categories_id')->constrained('categories', 'categories_id');
+            $table->foreignId('magnitudes_id')->constrained('magnitudes', 'magnitudes_id');
+            $table->string('name_items');
             $table->integer('stock eligible');
             $table->integer('stock defective');
-            $table->
+            $table->binary('image');
             $table->timestamps();
         });
     }
