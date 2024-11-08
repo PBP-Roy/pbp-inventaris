@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Magnitude extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['name_magnitudes', 'users_id'];
     // belong to
     public function user()
     {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogItemsTable extends Migration
+class CreateStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateLogItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('log_items', function (Blueprint $table) {
+        Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('items_id')->constrained();
-            $table->foreignId('statuses_id')->constrained();
-            $table->integer('total stock');
+            $table->string('name_statuses');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateLogItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log_items');
+        Schema::dropIfExists('statuses');
     }
 }

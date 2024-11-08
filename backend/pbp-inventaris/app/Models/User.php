@@ -42,6 +42,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    // has
     public function Magnitude()
     {
         return $this->hasMany(Magnitude::class);
