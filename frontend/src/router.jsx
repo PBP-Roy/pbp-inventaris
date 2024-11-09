@@ -6,6 +6,7 @@ import NotFoundPage from './NotFoundPage';
 import DashboardPage from './Pages/DashboardPage';
 import LoginPage from './Pages/LoginPage';
 import RegisterPage from './Pages/RegisterPage';
+import InventoryPage from './Pages/InventoryPage';
 
 const routes = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const routes = createBrowserRouter([
             {
                 path: '/',
                 element: <DashboardPage />
+            },
+            {
+                path: '/inventory-all',
+                element: <InventoryPage />
             }
         ]
     },
@@ -23,7 +28,6 @@ const routes = createBrowserRouter([
         path: '/guest',
         element: <GuestLayout />,
         errorElement: <App />,
-        // TODO: Uncomment after component is done
         children: [
             {
                 path: '/guest/login',
