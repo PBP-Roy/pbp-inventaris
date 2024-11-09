@@ -13,7 +13,7 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-         $statuses = ['masuk', 'keluar', 'rusak', 'hilang'];
+         $statuses = ['masuk', 'keluar','hilang'];
         foreach ($statuses as $key) {
             Status::create([
                 'name_statuses' => $key

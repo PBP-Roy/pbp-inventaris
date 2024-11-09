@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Log_item;
 use App\Models\Magnitude;
 use App\Models\Status;
+
 class ItemSeeder extends Seeder
 {
     /**
@@ -25,30 +26,22 @@ class ItemSeeder extends Seeder
             throw new \Exception('Table kategori or satuan is empty');
         }
 
-        for ($i=0; $i < 10; $i++) {
+        for ($i =1; $i < 10; $i++) {
             $stock_eli = rand(0, 100);
             $stock_def = rand(0, 10);
             Item::create([
                 'name_items' => 'Barang ' . $i,
+                'eligible_items' => $stock_eli,
+                'defective_items' => $stock_def,
                 'categories_id' => $kategori[array_rand($kategori)],
                 'magnitudes_id' => $satuan[array_rand($satuan)],
-                'stock eligible' => $stock_eli,
-                'stock defective' => $stock_def,
             ]);
-            if ($stock_eli > 1) {
-                Log_item::create([
-                    'items_id' => $i + 1,
-                    'total stock' => $stock_eli,
-                    'statuses_id' => $status[0],
-                ]);
-            }
-            if ($stock_def >= 1) {
-                Log_item::create([
-                    'items_id' => $i + 1,
-                    'total stock' => $stock_def,
-                    'statuses_id' => $status[2],
-                ]);
-            }
+            Log_item::create([
+                'items_id' => $i,
+                'eligible_log_items' => $stock_eli,
+                'defectives_log_items' => $stock_def,
+                'statuses_id' => $status[0],
+            ]);
         }
         //
     }

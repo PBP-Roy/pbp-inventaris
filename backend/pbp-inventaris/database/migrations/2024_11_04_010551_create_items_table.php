@@ -15,12 +15,12 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->string('name_items');
+            $table->integer('eligible_items');
+            $table->integer('defective_items');
+            $table->binary('image')->nullable();
             $table->foreignId('categories_id')->constrained();
             $table->foreignId('magnitudes_id')->constrained();
-            $table->string('name_items');
-            $table->integer('stock eligible');
-            $table->integer('stock defective');
-            $table->binary('image')->nullable();
             $table->timestamps();
         });
     }

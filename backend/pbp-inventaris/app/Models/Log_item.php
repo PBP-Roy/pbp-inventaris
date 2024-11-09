@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Log_item extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        'eligible_items',
+        'defective_items',
+        'items_id',
+        'status_id',
+    ];
     // belong to
     public function item()
     {
