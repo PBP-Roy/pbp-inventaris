@@ -7,7 +7,7 @@ function LoginPage() {
             <div className='background-login'>
                 <div className="login-container">
                     <div className="login-form">
-                        <img src="./src/assets/logo.jpg" alt="Logo" className="login-logo" />
+                        <img src="/src/assets/logo.jpg" alt="Logo" className="login-logo" />
                         <h1>Log in to your account</h1>
                         <p>Welcome back! Please enter your details.</p>
                         <form>
