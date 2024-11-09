@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background-size: cover;
+  background-position: center;
+}
+
+.background-signup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  background-image: url("/src/assets/background-login.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 400px;
+  /* Transparent overlay */
+}
+
+.signup-form {
+  background: rgba(255, 255, 255, 0.945);
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.signup-logo {
+  width: 50px;
+  margin-bottom: 20px;
+}
+
+.signup-form h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: rgb(0, 0, 0);
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: rgb(43, 43, 43);
+}
+
+label {
+  display: block;
+  text-align: left;
+  color: rgb(43, 43, 43);
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.signup-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.signup-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.signin-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.signin-link:hover,
+.forgot-password:hover {
+  text-decoration: underline;
+}

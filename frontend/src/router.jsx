@@ -5,6 +5,7 @@ import App from './App';
 import NotFoundPage from './NotFoundPage';
 import DashboardPage from './Pages/DashboardPage';
 import LoginPage from './Pages/LoginPage';
+import RegisterPage from './Pages/RegisterPage';
 
 const routes = createBrowserRouter([
     {
@@ -30,7 +31,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/guest/register',
-                // element: <RegisterPage />
+                element: <RegisterPage />
             }
         ]
     }

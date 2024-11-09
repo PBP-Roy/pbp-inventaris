@@ -18,11 +18,21 @@ function Sidebar() {
                 <ul className="SidebarList">
                     {SidebarData.map((val, key)=> {
                         return (
-                            <li className="row" key={key} id={window.location.pathname == val.link ? "active" : ""} onClick={()=> {if (val.children) {handleToggle(key);} else {window.location.pathname = val.link;}}}>
+                            <li className={`row ${expanded === key ? 'expanded' : ''}`} 
+                            key={key} id={window.location.pathname == val.link ? "active" : ""} 
+                            onClick={()=> {
+                                if (val.children) {
+                                    handleToggle(key);
+                                } else {
+                                    window.location.pathname = val.link;
+                                }
+                            }}>
                                 {" "}
-                                <div id="icon">{val.icon}</div>{" "}
-                                <div id="title">
-                                    {val.title}
+                                <div className="SidebarMenu">
+                                    <div id="icon">{val.icon}</div>{" "}
+                                    <div id="title">
+                                        {val.title}
+                                    </div>
                                 </div>
                                 {val.children && expanded === key && (
                                     <ul className="SidebarChildren">
