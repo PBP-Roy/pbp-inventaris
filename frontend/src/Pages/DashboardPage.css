@@ -10,8 +10,8 @@ body {
   /* background-color: rgba(245, 245, 245, 0.944); */
   display: grid;
   grid-template-areas: "summary low" "top low" "report report";
-  margin-top: 80px;
-  margin-left: 250px;
+  /* margin-top: 80px;
+  margin-left: 250px; */
   gap: 20px;
 }
 

@@ -1,16 +1,12 @@
 import { useMemo, useState } from 'react';
 import {
   MaterialReactTable,
-  MRT_FilterRangeSlider,
-  MRT_FilterTextField,
   MRT_GlobalFilterTextField,
-  MRT_ToggleFiltersButton,
   useMaterialReactTable,
 } from 'material-react-table';
 import {
   Box,
   Button,
-  CircularProgress,
   IconButton,
   Tooltip,
   Typography,
@@ -27,95 +23,69 @@ const DataTable = ({ data, type }) => {
   const [users, setUsers] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
 
+  let tableHeader;
   let columns = [
     {
-      accessorKey: 'id_brg',
+      accessorKey: 'id',
       header: 'Id',
       size: 80,
     },
     {
-      accessorKey: 'nama_brg',
+      accessorKey: 'name_items',
       header: 'Product Name',
     },
     {
       // TODO: Calculate total stock when passing data, or calculate in backend
-      accessorKey: 'stok_total',
+      accessorKey: 'total_items',
       header: 'Quantity',
     },
     {
-      accessorKey: 'stok_layak',
+      accessorKey: 'eligible_items',
       header: 'Usable',
       
     },
     {
-      accessorKey: 'stok_tidak_layak',
+      accessorKey: 'defective_items',
       header: 'Unusable',
     },
     {
-      accessorKey: 'besaran',
-      header: 'Unit',
+      accessorKey: 'magnitudes_id',
+      header: 'Magnitude',
     },
     {
-      accessorKey: 'kategori',
+      accessorKey: 'categories_id',
       header: 'Category', 
     },
   ];
 
   switch (type) {
     case 'all':
+      tableHeader = 'All Products';
       columns = [
         ...columns,
         {
-          // TODO: Sesuaikan accessorKey dengan nama kolom di data
           accessorKey: 'updated_at',
           header: 'Last Update',
         }
       ];
       break;
     case 'in':
+      tableHeader = 'Products In';
       columns = [
         ...columns,
         {
-          // TODO: Sesuaikan accessorKey dengan nama kolom di data
-          accessorKey: 'updated_at',
+          accessorKey: 'created_at',
           header: 'Date In',
         }
       ]
       break;
     case 'out':
+      tableHeader = 'Products Out';
       columns = [
         ...columns,
         {
-          // TODO: Sesuaikan accessorKey dengan nama kolom di data
-          accessorKey: 'updated_at',
+          accessorKey: 'created_at',
           header: 'Date Out',
-        }
-      ]
-      break;
-    case 'broken':
-      columns = [
-        {
-          accessorKey: 'id_brg',
-          header: 'Id',
-          size: 80,
-        },
-        {
-          accessorKey: 'nama_brg',
-          header: 'Product Name',
-        },
-        {
-          // TODO: Calculate broken products
-          accessorKey: 'broken',
-          header: 'Quantity'
-        },
-        {
-          accessorKey: 'kategori',
-          header: 'Category',
-        },
-        {
-          // TODO: When is the product broken
-          accessorKey: 'date',
-          header: 'Date Broken'
         }
       ]
       break;
@@ -153,6 +123,7 @@ const DataTable = ({ data, type }) => {
     muiTablePaperProps: {
       elevation: 0,
     },
+    // TODO: Create functions to handle add and edit
     renderCreateRowDialogContent: ({ table, row }) => (
       <>
         {console.log(row)}
@@ -168,9 +139,9 @@ const DataTable = ({ data, type }) => {
     renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex' }}>
         <Tooltip title="Edit">
-          <IconButton onClick={() => table.setEditingRow(row)}>
+          {type == 'all' && <IconButton onClick={() => table.setEditingRow(row)}>
             <EditIcon />
-          </IconButton>
+          </IconButton>}
         </Tooltip>
         <Tooltip title="Delete">
           <IconButton color="error" onClick={() => alert(row)}>
@@ -181,15 +152,15 @@ const DataTable = ({ data, type }) => {
     ),
     renderTopToolbar: ({ table }) => (
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
-        <Typography variant='h4'>All Products</Typography>
+        <Typography variant='h4'>{tableHeader}</Typography>
         <MRT_GlobalFilterTextField table={table} />
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
-          <Button
+          {type == 'all' && <Button
             variant="contained"
             onClick={() => table.setCreatingRow(true)}
           >
             Add Product
-          </Button>
+          </Button>}
           <MRT_CustomToggleFiltersButton table={table} />
         </div>
       </div>

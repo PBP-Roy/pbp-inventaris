@@ -19,7 +19,7 @@ const routes = createBrowserRouter([
                 element: <DashboardPage />
             },
             {
-                path: '/inventory-all',
+                path: '/inventory/:param', // Type: all, in, out
                 element: <InventoryPage />
             }
         ]
