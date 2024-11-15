@@ -15,7 +15,7 @@ class CreateLogItemsTable extends Migration
     {
         Schema::create('log_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('items_id')->constrained();
+            $table->foreignId('items_id')->constrained()->onDelete('cascade');
             $table->integer('eligible_log_items');
             $table->integer('defectives_log_items');
             $table->foreignId('statuses_id')->constrained();
