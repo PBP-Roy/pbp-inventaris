@@ -20,7 +20,7 @@ const routes = createBrowserRouter([
                 element: <DashboardPage />
             },
             {
-                path: '/inventory-all',
+                path: '/inventory/:param',
                 element: <InventoryPage />
             },
             {
@@ -33,7 +33,6 @@ const routes = createBrowserRouter([
         path: '/guest',
         element: <GuestLayout />,
         errorElement: <App />,
-        // TODO: Uncomment after component is done
         children: [
             {
                 path: '/guest/login',

@@ -9,12 +9,14 @@ const DefaultLayout = () => {
     //     return <Navigate to='/login' />
     // }
 
+    // TODO: Fetch data from backend and pass it to context
+
     // TODO: Uncomment after component is done
     return (
         <>
         <Navbar />
         <Sidebar />
-        <main>
+        <main style={{marginLeft: "250px", marginTop: "80px", padding: "20px"}}>
             <Outlet />
         </main>
         </>
