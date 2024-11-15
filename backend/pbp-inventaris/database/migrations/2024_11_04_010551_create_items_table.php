@@ -18,7 +18,7 @@ class CreateItemsTable extends Migration
             $table->string('name_items');
             $table->integer('eligible_items');
             $table->integer('defective_items');
-            $table->binary('image')->nullable();
+            $table->string('image')->nullable();
             $table->foreignId('categories_id')->constrained();
             $table->foreignId('magnitudes_id')->constrained();
             $table->timestamps();
