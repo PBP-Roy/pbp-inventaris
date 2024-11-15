@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\Log_ItemController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// CRUD item
+Route::get('/Item',[ItemController::class,'index']);
+Route::post('/Item',[ItemController::class,'store']);
+Route::get('/Item/{id}',[ItemController::class,'show']);
+Route::put('/Item/{id}', [ItemController::class, 'update']);
+Route::delete('/Item/{id}',[ItemController::class, 'destroy']);
+
+// Get all data log_item
+Route::get('/log',[Log_ItemController::class, 'index']);
