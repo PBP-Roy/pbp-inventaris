@@ -9,6 +9,12 @@ class Item extends Model
 {
     use HasFactory;
     protected $fillable = ['name_items', 'categories_id', 'magnitudes_id'];
+    // Menambahkan accessor untuk menghitung stock
+    public function getStockAttribute()
+    {
+        // Menghitung stock sebagai jumlah eligible_items dan defective_items
+        return $this->eligible_items + $this->defective_items;
+    }
     // belong to
     public function category()
     {
