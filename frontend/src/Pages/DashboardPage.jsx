@@ -11,36 +11,31 @@ function DashboardPage() {
                         <div className="summary-item">
                             <div className="icon-summary"><img src="/src/assets/categories.jpg" alt="" id="icon-summary-item" /></div>
                             <div className="quantity-summary">14</div>
-                            <div className="title-summary"></div>
-                            Total Categories
+                            <div className="title-summary">Total Categories</div>
                         </div>
                         <div className="vertical-divider"></div>
                         <div className="summary-item">
                             <div className="icon-summary"><img src="/src/assets/total-product.jpg" alt="" id="icon-summary-item" /></div>
                             <div className="quantity-summary">199</div>
-                            <div className="title-summary"></div>
-                            Total Products
+                            <div className="title-summary">Total Products</div>
                         </div>
                         <div className="vertical-divider"></div>
                         <div className="summary-item">
                             <div className="icon-summary"><img src="/src/assets/product-in.jpg" alt="" id="icon-summary-item" /></div>
                             <div className="quantity-summary">180</div>
-                            <div className="title-summary"></div>
-                            Total Product-in
+                            <div className="title-summary">Total Product-in</div>
                         </div>
                         <div className="vertical-divider"></div>
                         <div className="summary-item">
                             <div className="icon-summary"><img src="/src/assets/product-out.jpg" alt="" id="icon-summary-item" /></div>
                             <div className="quantity-summary">14</div>
-                            <div className="title-summary"></div>
-                            Total Product-out
+                            <div className="title-summary">Total Product-out</div>
                         </div>
                         <div className="vertical-divider"></div>
                         <div className="summary-item">
                             <div className="icon-summary"><img src="/src/assets/broken-product.jpg" alt="" id="icon-summary-item" /></div>
                             <div className="quantity-summary">4</div>
-                            <div className="title-summary"></div>
-                            Total Broken Product
+                            <div className="title-summary">Total Broken Product</div>
                         </div>
                     </div>
                 </div>

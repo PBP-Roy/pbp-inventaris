@@ -7,6 +7,7 @@ import DashboardPage from './Pages/DashboardPage';
 import LoginPage from './Pages/LoginPage';
 import RegisterPage from './Pages/RegisterPage';
 import InventoryPage from './Pages/InventoryPage';
+import ProfilePage from './Pages/ProfilePage';
 
 const routes = createBrowserRouter([
     {
@@ -19,8 +20,12 @@ const routes = createBrowserRouter([
                 element: <DashboardPage />
             },
             {
-                path: '/inventory/:param', // Type: all, in, out
+                path: '/inventory/:param',
                 element: <InventoryPage />
+            },
+            {
+                path: '/profile',
+                element: <ProfilePage/>
             }
         ]
     },

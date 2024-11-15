@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../contexts/contextProvider"
 import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
 
 const DefaultLayout = () => {
     // const { token } = useStateContext();
@@ -13,7 +14,7 @@ const DefaultLayout = () => {
     // TODO: Uncomment after component is done
     return (
         <>
-        {/* <Navbar /> */}
+        <Navbar />
         <Sidebar />
         <main style={{marginLeft: "250px", marginTop: "80px", padding: "20px"}}>
             <Outlet />
