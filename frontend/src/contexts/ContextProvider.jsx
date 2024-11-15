@@ -40,7 +40,7 @@ export const ContextProvider = ({ children }) => {
 
     // TODO: Sesuaikan value
     return (
-        <StateContext.Provider value={{ user, token, setUser, setToken}}>
+        <StateContext.Provider value={{ user, token, setUser, setToken }}>
             {children}
         </StateContext.Provider>
     )

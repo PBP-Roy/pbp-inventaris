@@ -9,8 +9,8 @@
     <h1>TESTING DATABASE</h1>
     <article>
         <h3>user</h3>
-        @foreach ($Item as $Item)
-        <p>{{ $Item['Buku'] }}</p>
+        @foreach ($items as $Item)
+        <p>{{ $Item }}</p>
         @endforeach
 
     </article>
