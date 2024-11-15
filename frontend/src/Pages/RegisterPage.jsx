@@ -28,7 +28,7 @@ function RegisterPage() {
                                 <input type="password" name="confirm-password" placeholder='Confirm your password' required />
                             </label>
                             <button type="submit" className="signup-btn">Get Started</button>
-                            <p>Already have an account? <a href="" className="signin-link">Log in</a></p>
+                            <p>Already have an account? <a href="/guest/login" className="signin-link">Log in</a></p>
                         </form>
                     </div>
                 </div>

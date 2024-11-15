@@ -10,8 +10,6 @@ body {
   /* background-color: rgba(245, 245, 245, 0.944); */
   display: grid;
   grid-template-areas: "summary low" "top low" "report report";
-  margin-top: 80px;
-  margin-left: 250px;
   gap: 20px;
 }
 
@@ -148,8 +146,8 @@ body {
 }
 
 .card-image {
-  height: 140px;
-  width: 140px;
+  height: 130px;
+  width: 130px;
   padding: 10px;
   border-radius: 10px;
 }
@@ -200,7 +198,7 @@ body {
   padding: 3px;
 }
 
-.ls-image{
+.ls-image {
   max-height: 70px;
   max-width: 60px;
 }

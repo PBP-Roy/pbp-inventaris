@@ -6,6 +6,8 @@ import NotFoundPage from './NotFoundPage';
 import DashboardPage from './Pages/DashboardPage';
 import LoginPage from './Pages/LoginPage';
 import RegisterPage from './Pages/RegisterPage';
+import InventoryPage from './Pages/InventoryPage';
+import ProfilePage from './Pages/ProfilePage';
 
 const routes = createBrowserRouter([
     {
@@ -16,6 +18,14 @@ const routes = createBrowserRouter([
             {
                 path: '/',
                 element: <DashboardPage />
+            },
+            {
+                path: '/inventory-all',
+                element: <InventoryPage />
+            },
+            {
+                path: '/profile',
+                element: <ProfilePage/>
             }
         ]
     },

@@ -12,7 +12,7 @@ function Sidebar() {
         <>
             <div className="Sidebar">
                 <div className="SidebarHeader">
-                    <div id="SidebarLogo"><img id="ImageLogo" src="src/assets/logo.jpg" alt="" /></div>{" "}
+                    <div id="SidebarLogo"><img id="ImageLogo" src="src/assets/new-logo.jpg" alt="" /></div>{" "}
                     <div id="SidebarTitle"><h3>Inventory Management</h3></div>
                 </div>
                 <ul className="SidebarList">

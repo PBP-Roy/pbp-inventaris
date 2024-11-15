@@ -26,7 +26,7 @@ function LoginPage() {
                                 <a href="" className="forgot-password">Forgot password</a>
                             </div>
                             <button type="submit" className="login-btn">Sign in</button>
-                            <p>Don't have an account? <a href="" className="signup-link">Sign up</a></p>
+                            <p>Don't have an account? <a href="/guest/register" className="signup-link">Sign up</a></p>
                         </form>
                     </div>
                 </div>
