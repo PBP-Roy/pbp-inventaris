@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Log_item;
 use App\Models\Category;
 use App\Models\Magnitude;
-use App\Models\log_item;
 use App\Models\Status;
 
 class ItemController extends Controller
@@ -87,20 +87,6 @@ class ItemController extends Controller
         
     
         if ($item->save()) {
-            // $item->refresh(); // Refresh item after save to ensure all values are updated
-            // $status = Status::where('id', '1')->first();
-            // // Verifying data before creating log item
-            // if ($status) {
-            //     $log_item = new Log_item([
-            //         'items_id' => $item->id,
-            //         'eligible_log_items' => $item->eligible_items,
-            //         'defectives_log_items' => $item->defective_items,
-            //         'statuses_id' => $status->id,
-            //     ]);
-    
-            //     $log_item->save();
-            // }
-            // $log_item->statuses_id = $
             return response()->json([
                 'Message' => 'Data item berhasil ditambahkan',
                 'Item' => [
@@ -179,71 +165,60 @@ class ItemController extends Controller
             'magnitudes' => 'required|string|exists:magnitudes,name_magnitudes',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+        
         // Setting up category and magnitude
         $category = Category::where('name_categories', $validatedData['categories'])->first();
         $magnitude = Magnitude::where('name_magnitudes', $validatedData['magnitudes'])->first();
-    
+        
         if (!$category || !$magnitude) {
             return response()->json(['Message' => 'Invalid category or magnitude'], 404);
         }
-    
+        
         // Find and update the item
         $item = Item::findOrFail($id);
+        
+        // Simpan nilai lama sebelum update untuk perbandingan
+        $oldEligible = $item->eligible_items;
+        $oldDefective = $item->defective_items;
+        
         $item->name_items = $validatedData['name_items'];
         $item->eligible_items = $validatedData['eligible_items'];
         $item->defective_items = $validatedData['defective_items'];
         $item->categories_id = $category->id;
         $item->magnitudes_id = $magnitude->id;
         
-        // $oldEligible = $item->eligible_items;
-        // $oldDefective = $item->defective_items;
-
+        // Menangani gambar jika ada
         if ($request->hasFile('image')) {
             // Menghapus gambar lama
-            if ($item->image) 
-            {
+            if ($item->image) {
                 Storage::disk('public')->delete($item->image);
             }
             // Menyimpan gambar baru
             $imagePath = $request->file('image')->store('public/images');
             $item->image = str_replace('public/', '', $imagePath);
-        }        
-    
-        // Save and return response
-        $item->save();
-        if ($item) {
-            // // Defined status from input condition and insert log_item
-            // $status = $item->eligible_items > $oldEligible || $item->defective_items > $oldDefective ? '1' : '2';
-            // $statusId = Status::where('id', $status)->first()->id;
-            // Log_item::create([
-            //     'eligible_items' => abs($item->eligible_items - $oldEligible),
-            //     'defective_items' => abs($item->defective_items - $oldDefective),
-            //     'items_id' => $item->id,
-            //     'status_id' => $statusId,
-            // ]);
-            return response()->json([
-                'Message' => 'Data item berhasil diupdate',
-                'Item' => [
-                    'id' => $item->id,
-                    'name_items' => $item->name_items,
-                    'stock' => $item->stock, // Menggunakan accessor untuk stock
-                    'eligible_items' => $item->eligible_items,
-                    'defective_items' => $item->defective_items,
-                    'categories_id' => $item->categories_id,
-                    'magnitudes_id' => $item->magnitudes_id,
-                    'image' => $item->image ? asset('storage/' . $item->image) : null,
-                    'created_at' => $item->created_at,
-                    'updated_at' => $item->updated_at,
-                ]
-            ], 200);
-        } else {
-            return response()->json([
-                'Message' => 'Data item gagal diupdate',
-                'Item' => null
-            ], 404);
         }
-    }
+    
+        // Save item
+        $item->save();
+        
+        // Tidak perlu lagi log secara manual karena sudah ditangani di model Item (event `updated`)
+    
+        return response()->json([
+            'Message' => 'Data item berhasil diupdate',
+            'Item' => [
+                'id' => $item->id,
+                'name_items' => $item->name_items,
+                'eligible_items' => $item->eligible_items,
+                'defective_items' => $item->defective_items,
+                'categories_id' => $item->categories_id,
+                'magnitudes_id' => $item->magnitudes_id,
+                'image' => $item->image ? asset('storage/' . $item->image) : null,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+            ]
+        ], 200);
+    }    
+    
 
     /**
      * Remove the specified resource from storage.

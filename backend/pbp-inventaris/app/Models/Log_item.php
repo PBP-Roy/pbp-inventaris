@@ -9,10 +9,10 @@ class Log_item extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'eligible_items',
-        'defective_items',
+        'eligible_log_items',
+        'defectives_log_items',
         'items_id',
-        'status_id',
+        'statuses_id',
     ];
     // belong to
     public function item()

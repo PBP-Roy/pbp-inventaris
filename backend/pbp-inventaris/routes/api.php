@@ -30,3 +30,4 @@ Route::delete('/Item/{id}',[ItemController::class, 'destroy']);
 
 // Get all data log_item
 Route::get('/log',[Log_ItemController::class, 'index']);
+Route::delete('/log/{id}',[Log_ItemController::class, 'destroy']);

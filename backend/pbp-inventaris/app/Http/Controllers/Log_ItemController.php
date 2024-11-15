@@ -73,6 +73,20 @@ class Log_ItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $log_item = Log_item::findOrFail($id);
+        $log_item->delete();
+        if($log_item)
+        {
+            $message = 'Data Item berhasil dihapus';
+            return response()->json([
+                'Message' => $message
+            ], 200);
+        }
+        elseif (!$log_item) {
+            $message = 'Data item gagal dihapus';
+            return response()->json([
+                'Message' => $message
+            ], 404);
+        }
     }
 }
