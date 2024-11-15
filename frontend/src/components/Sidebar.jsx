@@ -1,9 +1,11 @@
 import React, {useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import { SidebarData } from "./SidebarData";
 
 function Sidebar() {
     const [expanded, setExpanded] = useState(null);
+    const NavigateTo = useNavigate();
 
     const handleToggle = (key) => {
         setExpanded(expanded === key ? null : key);
@@ -18,18 +20,30 @@ function Sidebar() {
                 <ul className="SidebarList">
                     {SidebarData.map((val, key)=> {
                         return (
-                            <li className="row" key={key} id={window.location.pathname == val.link ? "active" : ""} onClick={()=> {if (val.children) {handleToggle(key);} else {window.location.pathname = val.link;}}}>
+                            <li className={`row ${expanded === key ? 'expanded' : ''}`} 
+                            key={key} id={window.location.pathname == val.link ? "active" : ""} 
+                            onClick={()=> {
+                                if (val.children) {
+                                    handleToggle(key);
+                                } else {
+                                    NavigateTo(val.link);
+                                }
+                            }}>
                                 {" "}
-                                <div id="icon">{val.icon}</div>{" "}
-                                <div id="title">
-                                    {val.title}
+                                <div className="SidebarMenu">
+                                    <div id="icon">{val.icon}</div>{" "}
+                                    <div id="title">
+                                        {val.title}
+                                    </div>
                                 </div>
                                 {val.children && expanded === key && (
                                     <ul className="SidebarChildren">
                                         {val.children.map((child, index) => (
-                                            <li key={index} className="child-row" onClick={() => (window.location.pathname = child.link)}>
-                                                {child.title}
-                                            </li>
+                                            <Link to={child.link} style={{textDecoration: 'none'}}>
+                                                <li key={index} className="child-row">
+                                                    {child.title}
+                                                </li>
+                                            </Link>
                                         ))}
                                     </ul>
                                 )}
