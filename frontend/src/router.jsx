@@ -2,12 +2,13 @@ import { createBrowserRouter } from "react-router-dom";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 import App from "./App";
-import NotFoundPage from "./Pages/PageNotFound";
 import DashboardPage from "./Pages/DashboardPage";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import InventoryPage from "./Pages/InventoryPage";
 import PageNotFound from "./Pages/PageNotFound";
+import ProfilePage from "./Pages/ProfilePage";
+import Report from "./Pages/report";
 
 const routes = createBrowserRouter([
   {
@@ -22,6 +23,14 @@ const routes = createBrowserRouter([
       {
         path: "/inventory/:param", // Type: all, in, out
         element: <InventoryPage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "/reports",
+        element: <Report />,
       },
     ],
   },

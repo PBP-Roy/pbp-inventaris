@@ -37,9 +37,16 @@ h1 {
   font-size: 20px;
   color: black;
   text-decoration: none;
-  margin-top: 100px;
 }
 
 .icon {
   height: 50px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
 }
