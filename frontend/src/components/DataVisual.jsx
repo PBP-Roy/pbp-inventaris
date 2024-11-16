@@ -122,7 +122,6 @@ const CustomChart = () => {
         backgroundColor: "white", // Latar belakang putih
         borderRadius: "10px", // Tambahkan sedikit radius untuk estetika
         padding: "20px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Tambahkan bayangan untuk gaya
       }}
     >
       <Line data={data} options={options} />

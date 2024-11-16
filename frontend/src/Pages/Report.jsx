@@ -24,26 +24,32 @@ export default function Report() {
 
       {/* Start overview */}
       <div className="overview-container">
-        <div className="overview-info">
-          <div className="quantity-overview">100</div>
-          <div className="title-overview">Total Products-in</div>
+        <div className="overview-title">
+          <h1>Overview</h1>
         </div>
-        <div className="vertical-divider"></div>
-        <div className="overview-info">
-          <div className="quantity-overview">70</div>
-          <div className="title-overview">Total Caragories-in</div>
-        </div>
-        <div className="vertical-divider"></div>
-        <div className="overview-info">
-          <div className="quantity-overview">80</div>
-          <div className="title-overview">Total Viable Products</div>
-        </div>
-        <div className="vertical-divider"></div>
-        <div className="overview-info">
-          <div className="quantity-overview">110</div>
-          <div className="title-overview">Total Non-viable Products</div>
+        <div className="overview-data">
+          <div className="overview-info">
+            <div className="quantity-overview">100</div>
+            <div className="title-overview">Total Products-in</div>
+          </div>
+          <div className="vertical-divider"></div>
+          <div className="overview-info">
+            <div className="quantity-overview">70</div>
+            <div className="title-overview">Total Caragories-in</div>
+          </div>
+          <div className="vertical-divider"></div>
+          <div className="overview-info">
+            <div className="quantity-overview">80</div>
+            <div className="title-overview">Total Viable Products</div>
+          </div>
+          <div className="vertical-divider"></div>
+          <div className="overview-info">
+            <div className="quantity-overview">110</div>
+            <div className="title-overview">Total Non-viable Products</div>
+          </div>
         </div>
       </div>
+      {/* End overview */}
 
       {/* Data Visualisasi */}
       <div className="data-visual-container">
@@ -52,6 +58,7 @@ export default function Report() {
           <DataVisual />
         </div>
       </div>
+      {/* End Data Visualisasi */}
     </>
   );
 }
