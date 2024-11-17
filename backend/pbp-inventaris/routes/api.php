@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Log_ItemController;
 
 
@@ -31,3 +32,6 @@ Route::delete('/Item/{id}',[ItemController::class, 'destroy']);
 // Get all data log_item
 Route::get('/log',[Log_ItemController::class, 'index']);
 Route::delete('/log/{id}',[Log_ItemController::class, 'destroy']);
+
+// Get data for dashboard
+Route::get('/Dashboard',[DashboardController::class, 'dashboard']);
