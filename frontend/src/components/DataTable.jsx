@@ -15,13 +15,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InputBarangModal from './InputBarangModal';
 import { MRT_CustomToggleFiltersButton } from './MRT_CustomToggleFiltersButton';
+import { MRT_CustomCSVDownload } from './MRT_CustomCSVDownload';
+import { mkConfig, generateCsv, download } from 'export-to-csv';
+import { postItems, putItems } from '../api/itemsApi';
+import { useStateContext } from '../contexts/ContextProvider';
 
-const DataTable = ({ data, type }) => {
-  const [validationErrors, setValidationErrors] = useState({});
-  const [editedUsers, setEditedUsers] = useState({});  
-  // Use the state from context
-  const [users, setUsers] = useState(data);
-  const [isLoading, setIsLoading] = useState(false);
+const DataTable = ({ data, type }) => {  
+  const { items, magnitudes, categories } = useStateContext();
 
   let tableHeader;
   let columns = [
@@ -35,8 +35,7 @@ const DataTable = ({ data, type }) => {
       header: 'Product Name',
     },
     {
-      // TODO: Calculate total stock when passing data, or calculate in backend
-      accessorKey: 'total_items',
+      accessorKey: 'stock',
       header: 'Quantity',
     },
     {
@@ -51,41 +50,105 @@ const DataTable = ({ data, type }) => {
     {
       accessorKey: 'magnitudes_id',
       header: 'Magnitude',
+      Cell: ({ cell }) => {
+        const magnitude = magnitudes.find((magnitude) => magnitude.id === cell.getValue());
+        return magnitude ? magnitude.name_magnitudes : '';
+      }
     },
     {
       accessorKey: 'categories_id',
-      header: 'Category', 
+      header: 'Category',
+      Cell: ({ cell }) => {
+        const category = categories.find((category) => category.id === cell.getValue());
+        return category ? category.name_categories : '';
+      },
     },
+    {
+      accessorKey: 'updated_at',
+      header: 'Last Update',
+      Cell: ({ cell }) => {
+        return cell.getValue().split("T")[0] + " " + cell.getValue().split("T")[1].split(".")[0];
+      },
+    }
   ];
 
   switch (type) {
     case 'all':
       tableHeader = 'All Products';
-      columns = [
-        ...columns,
-        {
-          accessorKey: 'updated_at',
-          header: 'Last Update',
-        }
-      ];
       break;
     case 'in':
       tableHeader = 'Products In';
       columns = [
-        ...columns,
+        {
+          accessorKey: 'id',
+          header: 'Id',
+        },
+        {
+          accessorKey: 'items_id',
+          header: 'Product Name',
+          Cell: ({ cell }) => {
+            const item = items.find((item) => item.id === cell.getValue());
+            return item ? item.name_items : '';
+          }
+        },
+        {
+          header: 'Quantity',
+          Cell: ({ row }) => {
+            return row.original.eligible_log_items + row.original.defectives_log_items;
+          }
+        },
+        {
+          accessorKey: 'eligible_log_items',
+          header: 'Usable',
+        },
+        {
+          accessorKey: 'defectives_log_items',
+          header: 'Unusable',
+        },
         {
           accessorKey: 'created_at',
           header: 'Date In',
+          Cell: ({ cell }) => {
+            return cell.getValue().split("T")[0] + " " + cell.getValue().split("T")[1].split(".")[0];
+          },
         }
       ]
       break;
     case 'out':
       tableHeader = 'Products Out';
       columns = [
-        ...columns,
+        {
+          accessorKey: 'id',
+          header: 'Id',
+        },
+        {
+          accessorKey: 'items_id',
+          header: 'Product Name',
+          Cell: ({ cell }) => {
+            const item = items.find((item) => item.id === cell.getValue());
+            return item ? item.name_items : '';
+          }
+        },
+        {
+          header: 'Quantity',
+          Cell: ({ row }) => {
+            return row.original.eligible_log_items + row.original.defectives_log_items;
+          }
+        },
+        {
+          accessorKey: 'eligible_log_items',
+          header: 'Usable',
+        },
+        {
+          accessorKey: 'defectives_log_items',
+          header: 'Unusable',
+        },
         {
           accessorKey: 'created_at',
           header: 'Date Out',
+          Cell: ({ cell }) => {
+            return cell.getValue().split("T")[0] + " " + cell.getValue().split("T")[1].split(".")[0];
+          },
         }
       ]
       break;
@@ -93,10 +156,28 @@ const DataTable = ({ data, type }) => {
       break;
   }
 
-  // TODO: Add Conditional Rendering based on type
+  const csvConfig = mkConfig({
+    fieldSeparator: ',',
+    decimalSeparator: '.',
+    useKeysAsHeaders: true,
+  });
+
+  const handleExportData = () => {
+    const csv = generateCsv(csvConfig)(data);
+    download(csvConfig)(csv);
+  };
+
+  const handleAddData = (data) => {
+    postItems(data);
+  };
+
+  const handleEditData = (data) => {
+    putItems(data.id, data);
+  }
+
   const table = useMaterialReactTable({
     columns,
-    data: users,
+    data: data,
     createDisplayMode: 'modal',
     editDisplayMode: 'modal',
     enableCellActions: true,
@@ -123,17 +204,14 @@ const DataTable = ({ data, type }) => {
     muiTablePaperProps: {
       elevation: 0,
     },
-    // TODO: Create functions to handle add and edit
     renderCreateRowDialogContent: ({ table, row }) => (
       <>
-        {console.log(row)}
-        <InputBarangModal onCancel={() => {table.setCreatingRow(false)}} onConfirm={() => {table.setCreatingRow(false)}} />
+        <InputBarangModal onCancel={() => {table.setCreatingRow(false)}} onConfirm={handleAddData} />
       </>
     ),
     renderEditRowDialogContent: ({ table, row }) => (
       <>
-      {console.log(row)}
-      <InputBarangModal data={row.original} onCancel={() => {table.setEditingRow(false)}} onConfirm={() => {table.setEditingRow(false)}} />
+        <InputBarangModal data={row.original} onCancel={() => {table.setEditingRow(false)}} onConfirm={handleEditData} />
       </>
     ),
     renderRowActions: ({ row }) => (
@@ -152,7 +230,9 @@ const DataTable = ({ data, type }) => {
     ),
     renderTopToolbar: ({ table }) => (
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
-        <Typography variant='h4'>{tableHeader}</Typography>
+        <Typography variant='h4'>
+          <span style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>{tableHeader}</span>
+        </Typography>
         <MRT_GlobalFilterTextField table={table} />
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
           {type == 'all' && <Button
@@ -162,6 +242,7 @@ const DataTable = ({ data, type }) => {
             Add Product
           </Button>}
           <MRT_CustomToggleFiltersButton table={table} />
+          <MRT_CustomCSVDownload onClick={handleExportData} />
         </div>
       </div>
     ),
