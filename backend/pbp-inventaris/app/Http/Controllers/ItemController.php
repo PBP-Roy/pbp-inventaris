@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Log_item;
@@ -21,8 +22,8 @@ class ItemController extends Controller
         $items = Item::all(); // Ambil semua item
         if ($items->isNotEmpty()) {
             return response()->json([
-                'Message' => 'Berhasil mengambil data Item',
-                'Items' => $items->map(function($item) {
+                'message' => 'Berhasil mengambil data Item',
+                'data' => $items->map(function($item) {
                     return [
                         'id' => $item->id,
                         'name_items' => $item->name_items,
@@ -39,8 +40,8 @@ class ItemController extends Controller
             ], 200);
         } else {
             return response()->json([
-                'Message' => 'Gagal mengambil data Item',
-                'Items' => null
+                'message' => 'Gagal mengambil data Item',
+                'data' => null
             ], 404);
         }
     }
@@ -69,7 +70,7 @@ class ItemController extends Controller
         $magnitudes = Magnitude::where('name_magnitudes', $validatedData['magnitudes'])->first();
         
         if (!$categories || !$magnitudes) {
-            return response()->json(['Message' => 'Invalid category or magnitude'], 404);
+            return response()->json(['message' => 'Invalid category or magnitude'], 404);
         }
     
         // Adding new Item
@@ -88,8 +89,8 @@ class ItemController extends Controller
     
         if ($item->save()) {
             return response()->json([
-                'Message' => 'Data item berhasil ditambahkan',
-                'Item' => [
+                'message' => 'Data item berhasil ditambahkan',
+                'data' => [
                     'id' => $item->id,
                     'name_items' => $item->name_items,
                     'stock' => $item->stock,  
@@ -104,8 +105,8 @@ class ItemController extends Controller
             ], 200);
         } else {
             return response()->json([
-                'Message' => 'Data item gagal ditambahkan',
-                'Item' => null
+                'message' => 'Data item gagal ditambahkan',
+                'data' => null
             ], 404);
         }
     }
@@ -124,8 +125,8 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
         if ($item) {
             return response()->json([
-                'Message' => 'Data item berhasil didapatkan',
-                'Item' => [
+                'message' => 'Data item berhasil didapatkan',
+                'data' => [
                     'id' => $item->id,
                     'name_items' => $item->name_items,
                     'stock' => $item->stock,  // Accessor ini akan menghitung stock secara otomatis
@@ -140,8 +141,8 @@ class ItemController extends Controller
             ], 200);
         } else {
             return response()->json([
-                'Message' => 'Tidak ada item yang dicari',
-                'Item' => null
+                'message' => 'Tidak ada item yang dicari',
+                'data' => null
             ], 404);
         }
     }
@@ -171,7 +172,7 @@ class ItemController extends Controller
         $magnitude = Magnitude::where('name_magnitudes', $validatedData['magnitudes'])->first();
         
         if (!$category || !$magnitude) {
-            return response()->json(['Message' => 'Invalid category or magnitude'], 404);
+            return response()->json(['message' => 'Invalid category or magnitude'], 404);
         }
         
         // Find and update the item
@@ -204,8 +205,8 @@ class ItemController extends Controller
         // Tidak perlu lagi log secara manual karena sudah ditangani di model Item (event `updated`)
     
         return response()->json([
-            'Message' => 'Data item berhasil diupdate',
-            'Item' => [
+            'message' => 'Data item berhasil diupdate',
+            'data' => [
                 'id' => $item->id,
                 'name_items' => $item->name_items,
                 'eligible_items' => $item->eligible_items,
@@ -234,13 +235,13 @@ class ItemController extends Controller
         {
             $message = 'Data Item berhasil dihapus';
             return response()->json([
-                'Message' => $message
+                'message' => $message
             ], 200);
         }
         elseif (!$item) {
             $message = 'Data item gagal dihapus';
             return response()->json([
-                'Message' => $message
+                'message' => $message
             ], 404);
         }
     }

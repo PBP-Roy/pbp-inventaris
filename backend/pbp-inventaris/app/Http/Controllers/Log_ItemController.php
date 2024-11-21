@@ -18,15 +18,15 @@ class Log_ItemController extends Controller
         if($log_item)
         {
             return response()->json([
-                'Message : ' => 'Berhasil mengambil data log item',
-                'Log Item : ' => $log_item
+                'message' => 'Berhasil mengambil data log item',
+                'data' => $log_item
             ], 200);
         }
         else
         {
             return response()->json([
-                'Message : ' => 'Gagal mengambil data log item',
-                'Log Item :' => null
+                'message' => 'Gagal mengambil data log item',
+                'data' => null
             ], 404);
         }
     }
@@ -39,7 +39,7 @@ class Log_ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -79,13 +79,13 @@ class Log_ItemController extends Controller
         {
             $message = 'Data Item berhasil dihapus';
             return response()->json([
-                'Message' => $message
+                'message' => $message
             ], 200);
         }
         elseif (!$log_item) {
             $message = 'Data item gagal dihapus';
             return response()->json([
-                'Message' => $message
+                'message' => $message
             ], 404);
         }
     }
