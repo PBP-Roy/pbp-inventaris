@@ -4,12 +4,12 @@ import "./Sidebar.css";
 import { SidebarData } from "./SidebarData";
 
 function Sidebar() {
-  const [expanded, setExpanded] = useState(null);
-  const NavigateTo = useNavigate();
+    const [expanded, setExpanded] = useState(null);
+    const NavigateTo = useNavigate();
 
-  const handleToggle = (key) => {
-    setExpanded(expanded === key ? null : key);
-  };
+    const handleToggle = (key) => {
+        setExpanded(expanded === key ? null : key);
+    };
 
   return (
     <div className="Sidebar">

@@ -3,25 +3,37 @@ import { createContext, useContext, useState } from "react";
 const StateContext = createContext({
     user: null,
     token: null,
+    items: [],
+    categories: [],
+    magnitudes: [],
+    logs: [],
+    statuses: [],
     setUser: () => {},
-    setToken: () => {}
+    setToken: () => {},
+    setItems: () => {},
+    setCategories: () => {},
+    setMagnitudes: () => {},
+    setLogs: () => {},
+    setStatuses: () => {}
 });
 
 export const ContextProvider = ({ children }) => {
     const [user, _setUser] = useState(sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null);
     const [token, _setToken] = useState(sessionStorage.getItem('token'));
+    const [items, setItems] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [magnitudes, setMagnitudes] = useState([]);
+    const [logs, setLogs] = useState([]);
+    const [statuses, setStatuses] = useState([]);
 
     const setUser = (user) => {
         _setUser(user);
-        // TODO: Sesuaikan dengan skema database
         if(user) {
             let User = {
                 id: user.id,
                 name: user.name,
-                username: user.username,
-                tipe_user: user.tipe_user,
-                no_hp: user.no_hp,
-                id_jurusan: user.id_jurusan
+                email: user.email,
+                image: user.image,
             }
             sessionStorage.setItem('user', JSON.stringify(User));
         } else {
@@ -38,9 +50,8 @@ export const ContextProvider = ({ children }) => {
         }
     }
 
-    // TODO: Sesuaikan value
     return (
-        <StateContext.Provider value={{ user, token, setUser, setToken }}>
+        <StateContext.Provider value={{ user, token, items, categories, magnitudes, logs, statuses, setUser, setToken, setItems, setCategories, setMagnitudes, setLogs, setStatuses }}>
             {children}
         </StateContext.Provider>
     )

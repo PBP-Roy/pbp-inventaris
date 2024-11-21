@@ -2,6 +2,17 @@
 	padding: 10px 20px;
 }
 
+.container .removeImage {
+    text-align: center;
+    color: #1366d9;
+    margin: 0;
+}
+
+.container .removeImage:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .form-input {
     display: flex;
     justify-content: space-between;
