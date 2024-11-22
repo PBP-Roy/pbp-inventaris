@@ -27,6 +27,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 */
 
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('/user', function () {
+        return auth()->user();
+    });
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/refresh', [AuthController::class, 'refreshToken']);
+
 //kategori
 Route::get('/kategori', [KategoriController::class, 'index']);
 
