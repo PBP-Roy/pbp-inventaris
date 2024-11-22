@@ -15,30 +15,31 @@ const DefaultLayout = () => {
     // if (!token) {
     //     return <Navigate to='/login' />
     // }
-    const { categories, magnitudes, statuses, setItems, setCategories, setMagnitudes, setLogs, setStatuses } = useStateContext();
+    const { items, categories, magnitudes, statuses, setItems, setCategories, setMagnitudes, setLogs, setStatuses } = useStateContext();
     const [isLoading, setIsLoading] = useState(true);
 
+    const fetchItems = async () => {
+        const data = await getItems();
+        setItems(data.data);
+    }
+    const fetchCategories = async () => {
+        const data = await getCategories();
+        setCategories(data.data);
+    }
+    const fetchMagnitudes = async () => {
+        const data = await getMagnitudes();
+        setMagnitudes(data.data);
+    }
+    const fetchLogs = async () => {
+        const data = await getLogs();
+        setLogs(data.data);
+    }
+    const fetchStatuses = async () => {
+        const data = await getStatuses();
+        setStatuses(data.data);
+    }
+
     const fetchAllData = async () => {
-        const fetchItems = async () => {
-            const data = await getItems();
-            setItems(data.data);
-        }
-        const fetchCategories = async () => {
-            const data = await getCategories();
-            setCategories(data.data);
-        }
-        const fetchMagnitudes = async () => {
-            const data = await getMagnitudes();
-            setMagnitudes(data.data);
-        }
-        const fetchLogs = async () => {
-            const data = await getLogs();
-            setLogs(data.data);
-        }
-        const fetchStatuses = async () => {
-            const data = await getStatuses();
-            setStatuses(data.data);
-        }
         fetchItems();
         fetchCategories();
         fetchMagnitudes();
@@ -49,6 +50,10 @@ const DefaultLayout = () => {
     useEffect(() => {
         fetchAllData();
     }, []);
+
+    useEffect(() => {
+        fetchLogs();
+    }, [items])
 
     useEffect(() => {
         if (categories.length > 0 && magnitudes.length > 0 && statuses.length > 0) {

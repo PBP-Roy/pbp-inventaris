@@ -21,7 +21,7 @@ import { postItems, putItems } from '../api/itemsApi';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const DataTable = ({ data, type }) => {  
-  const { items, magnitudes, categories } = useStateContext();
+  const { items, magnitudes, categories, setItems } = useStateContext();
 
   let tableHeader;
   let columns = [
@@ -167,13 +167,17 @@ const DataTable = ({ data, type }) => {
     download(csvConfig)(csv);
   };
 
-  const handleAddData = (data) => {
-    postItems(data);
+  const handleAddData = async (data) => {
+    await postItems(data).then((res) => {
+      setItems([...items, res.data]);
+    });
   };
 
-  const handleEditData = (data) => {
-    putItems(data.id, data);
-  }
+  const handleEditData = async (data) => {
+    await putItems(data.id, data).then((res) => {
+      setItems(items.map((item) => item.id === res.data.id ? {...res.data, stock: parseInt(res.data.eligible_items) + parseInt(res.data.defective_items)} : item));
+    });
+  };
 
   const table = useMaterialReactTable({
     columns,
@@ -187,8 +191,6 @@ const DataTable = ({ data, type }) => {
     enableRowActions: true,
     getRowId: (row) => row.id,
     muiTableContainerProps: { sx: { minHeight: '500px' } },
-    onCreatingRowCancel: () => setValidationErrors({}),
-    // onCreatingRowSave: handleCreateUser,
     muiSearchTextFieldProps: {
       type: 'string'
     },
@@ -206,21 +208,21 @@ const DataTable = ({ data, type }) => {
     },
     renderCreateRowDialogContent: ({ table, row }) => (
       <>
-        <InputBarangModal onCancel={() => {table.setCreatingRow(false)}} onConfirm={handleAddData} />
+        <InputBarangModal onCancel={() => {table.setCreatingRow(false)}} onConfirm={handleAddData} table={table} edit={false} />
       </>
     ),
-    renderEditRowDialogContent: ({ table, row }) => (
+    renderEditRowDialogContent: ({ row, table }) => (
       <>
-        <InputBarangModal data={row.original} onCancel={() => {table.setEditingRow(false)}} onConfirm={handleEditData} />
+        <InputBarangModal data={row.original} onCancel={() => {table.setEditingRow(false)}} onConfirm={handleEditData} table={table} edit={true} />
       </>
     ),
     renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex' }}>
-        <Tooltip title="Edit">
-          {type == 'all' && <IconButton onClick={() => table.setEditingRow(row)}>
+        {type == 'all' && <Tooltip title="Edit">
+          <IconButton onClick={() => table.setEditingRow(row, table)}>
             <EditIcon />
-          </IconButton>}
-        </Tooltip>
+          </IconButton>
+        </Tooltip>}
         <Tooltip title="Delete">
           <IconButton color="error" onClick={() => alert(row)}>
             <DeleteIcon />
@@ -228,7 +230,7 @@ const DataTable = ({ data, type }) => {
         </Tooltip>
       </Box>
     ),
-    renderTopToolbar: ({ table }) => (
+    renderTopToolbar: ({ row, table }) => (
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
         <Typography variant='h4'>
           <span style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>{tableHeader}</span>

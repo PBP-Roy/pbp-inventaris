@@ -17,19 +17,21 @@ export async function postItems(data) {
         console.log(res);
         return res.data;
     }).catch((err) => {
+        console.log(err);
         return err;
     });
 }
 
 export async function putItems(id, data) {
-    await axiosClient.put(`/Item/${id}`, data, {
+    return await axiosClient.post(`/Item/${id}`, data, {
         headers: {
             'Content-Type': 'multipart/form-data'
-        }
+        }   
     }).then((res) => {
         console.log(res);
         return res.data;
     }).catch((err) => {
+        console.log(err);
         return err;
     });
 }

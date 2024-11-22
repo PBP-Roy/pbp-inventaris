@@ -19,7 +19,7 @@ class MagnitudesSeeder extends Seeder
         $magnitudes = ['pcs', 'kg', 'gr', 'mg', 'm', 'cm', 'mm', 'l', 'ml', 'lainnya'];
         foreach ($magnitudes as $key) {
             Magnitude::create([
-                'users_id' => $user[array_rand($user)],
+                'users_id' => 0,
                 'name_magnitudes' => $key
             ]);
         }
