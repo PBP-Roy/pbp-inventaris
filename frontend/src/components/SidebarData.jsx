@@ -16,20 +16,16 @@ export const SidebarData = [
         children: [
             {
                 title: "All Products",
-                link: "/inventory/all-products"
+                link: "/inventory/all"
             },
             {
                 title: "Products-in",
-                link: "/inventory/products-in"
+                link: "/inventory/in"
             },
             {
                 title: "Products-out",
-                link: "/inventory/products-out"
+                link: "/inventory/out"
             },
-            {
-                title: "Products-Broken",
-                link: "/inventory/products-broken"
-            }
         ]
     },
     {

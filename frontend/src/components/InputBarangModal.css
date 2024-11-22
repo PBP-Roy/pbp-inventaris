@@ -1,0 +1,105 @@
+.container {
+	padding: 10px 20px;
+}
+
+.container .removeImage {
+    text-align: center;
+    color: #1366d9;
+    margin: 0;
+}
+
+.container .removeImage:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.form-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-input .number-input {
+    display: flex;
+    width: 100%;
+    max-width: 60%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.form-input .number-input .btn {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    height: min-content;
+    padding: 6px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.form-input .number-input .btn:hover {
+    background-color: #eee;
+}
+
+.form-input .number-input .btn:active {
+    background-color: #ddd;
+}
+
+.form-input .number-input input {
+    width: unset;
+    margin: 0;
+}
+
+.form-input input, .form-input select {
+	width: 100%;
+    max-width: 60%;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 15px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	background-color: white;
+	box-sizing: border-box;
+}
+
+.container .form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.container .btn-discard, .container .btn-confirm {
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.container .btn-discard {
+    border: 1px solid grey;
+    background-color: transparent;
+}
+
+.container .btn-discard:hover {
+    background-color: #eee;
+}
+
+.container .btn-confirm {
+    border: none;
+    background-color: #1366d9;
+    color: white;
+}
+
+.container .btn-confirm:hover {
+    background-color: #044aad;
+}
+
+.link {
+    color: #1366d9;
+}
+
+.link:hover {
+    text-decoration: underline;
+}

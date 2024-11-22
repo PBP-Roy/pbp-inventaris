@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,17 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::group(['middleware' => 'jwt.auth'], function () {
-    Route::get('/user', function () {
-        return auth()->user();
-    });
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
-
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/refresh', [AuthController::class, 'refreshToken']);
+Route::get('/database', [ItemController::class, 'index'])->name('database.index');
