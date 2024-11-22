@@ -15,6 +15,8 @@ class MagnitudeController extends Controller
     public function index()
     {
         $magnitudes = Magnitude::all();
+        // $userId = auth()->id();
+        // $magnitudes = Magnitude::where('users_id', 0)->orWhere('users_id', $userId)->get();
         if ($magnitudes) {
             return response()->json([
                 'message' => 'Berhasil mengambil data magnitudes',

@@ -15,7 +15,7 @@ export const MRT_CustomToggleFiltersButton = ({ table, ...rest }) => {
   const handleToggleShowFilters = () => {
     setShowColumnFilters(!showColumnFilters);
   };
-  s;
+  
   return (
     <Tooltip
       id="MRT_CustomToggleFiltersButton"

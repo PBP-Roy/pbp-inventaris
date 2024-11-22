@@ -9,6 +9,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Log_ItemController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------

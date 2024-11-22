@@ -62,7 +62,6 @@ class ItemController extends Controller
             'defective_items' => 'required|integer|min:0',
             'categories' => 'required|string|exists:categories,name_categories',
             'magnitudes' => 'required|string|exists:magnitudes,name_magnitudes',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         
         // Setting up category and magnitude
@@ -159,12 +158,11 @@ class ItemController extends Controller
     {
         // Validate User Input
         $validatedData = $request->validate([
-            'name_items' => 'required|string|max:255|unique:items,name_items,'.$id,
-            'eligible_items' => 'required|integer|min:0',
-            'defective_items' => 'required|integer|min:0',
-            'categories' => 'required|string|exists:categories,name_categories',
-            'magnitudes' => 'required|string|exists:magnitudes,name_magnitudes',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name_items' => 'string|max:255|unique:items,name_items,'.$id,
+            'eligible_items' => 'integer|min:0',
+            'defective_items' => 'integer|min:0',
+            'categories' => 'string|exists:categories,name_categories',
+            'magnitudes' => 'string|exists:magnitudes,name_magnitudes',
         ]);
         
         // Setting up category and magnitude
@@ -177,10 +175,6 @@ class ItemController extends Controller
         
         // Find and update the item
         $item = Item::findOrFail($id);
-        
-        // Simpan nilai lama sebelum update untuk perbandingan
-        $oldEligible = $item->eligible_items;
-        $oldDefective = $item->defective_items;
         
         $item->name_items = $validatedData['name_items'];
         $item->eligible_items = $validatedData['eligible_items'];

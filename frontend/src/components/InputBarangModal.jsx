@@ -3,28 +3,45 @@ import { useDropzone } from "react-dropzone";
 import "./InputBarangModal.css";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import CachedIcon from '@mui/icons-material/Cached';
 import { useStateContext } from "../contexts/ContextProvider";
 import { postItems } from "../api/itemsApi";
 import { postMagnitudes } from "../api/magnitudesApi";
 
-export default function InputBarangModal({ onCancel, onConfirm, data }) {
-	const { categories, magnitudes, user } = useStateContext();
+export default function InputBarangModal({ onCancel, onConfirm, data, table, edit }) {
+	const { categories, magnitudes, user, setMagnitudes } = useStateContext();
 	const [isAddNewMagnitude, setIsAddNewMagnitude] = useState(false);
+	const [isMagnitudeAdded, setIsMagnitudeAdded] = useState(false);
+	const [editQtyStatus, setEditQtyStatus] = useState({
+		plus: false,
+		minus: false
+	});
 	const [preview, setPreview] = useState(null);
 	const [payload, setPayload] = useState(
-		data || {
+		data ? {
+			id: data.id,
+			name_items: data.name_items,
+			eligible_items: data.eligible_items,
+			defective_items: data.defective_items,
+			magnitudes: magnitudes.find((m) => m.id === data.magnitudes_id).name_magnitudes,
+			categories: categories.find((c) => c.id === data.categories_id).name_categories,
+			image: null,
+			_method: 'PUT',
+		} : {
 			name_items: "",
 			eligible_items: 0,
 			defective_items: 0,
-			name_magnitudes: "",
+			magnitudes: "",
+			categories: "",
 			image: null,
-			name_categories: "",
 		}
 	);
-	const [categoryPayload, setCategoryPayload] = useState({
+	const [magnitudePayload, setMagnitudePayload] = useState({
 		name_magnitudes: "",
 		users_id: 1, // TODO: Change to user.id when register/login is done
 	});
+
+	
 
 	const onDrop = useCallback((acceptedFiles) => {
 		const file = acceptedFiles[0];
@@ -56,26 +73,40 @@ export default function InputBarangModal({ onCancel, onConfirm, data }) {
 			alert("Product stock cannot be empty!");
 			return false;
 		}
-		if (payload.name_magnitudes === "") {
+		if (payload.magnitudes === "") {
 			alert("Product magnitude must be selected!");
 			return false;
 		}
-		if (payload.name_categories === "") {
+		if (payload.categories === "") {
 			alert("Product category must be selected!");
 			return false;
 		}
 		return true;
 	};
 
+	useEffect(() => {
+		if (isMagnitudeAdded) {
+			onConfirm(payload);
+			edit ? table.setEditingRow(false) : table.setCreatingRow(false);
+		}
+	}, [isMagnitudeAdded]);
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (validateInput()) {
-			isAddNewMagnitude && postMagnitudes(categoryPayload).catch((err) => {
-				alert(err.message);
-				return;
-			});
-			onConfirm(payload);
-			console.log(payload);
+			if (isAddNewMagnitude) {
+				postMagnitudes(magnitudePayload).then((res) => {
+					setMagnitudes([...magnitudes, res.data]);
+					setPayload({...payload, magnitudes: res.data.name_magnitudes});
+					setIsMagnitudeAdded(true);
+				}).catch((err) => {
+					alert(err.message);
+					return;
+				});
+			} else {
+				onConfirm(payload);
+				edit ? table.setEditingRow(false) : table.setCreatingRow(false);
+			}
 		}
 	};
 
@@ -139,16 +170,32 @@ export default function InputBarangModal({ onCancel, onConfirm, data }) {
 				<div className="form-input">
 					<label htmlFor="eligible_items">Usable</label>
 					<div className="number-input">
-						<div
-							onClick={() =>
+					{!editQtyStatus.minus ? <div
+							onClick={() => {
+								if (edit) {
+									setEditQtyStatus({...setEditQtyStatus, plus: true});
+								}
 								setPayload({
 									...payload,
-									eligible_items: payload.eligible_items + 1,
-								})
-							}
+									eligible_items:
+										payload.eligible_items + 1,
+								});
+							}}
 							className="btn">
 							<AddIcon />
-						</div>
+						</div> : <div
+							onClick={() => {
+								setEditQtyStatus({plus: false, minus: false});
+								setPayload({
+									...payload,
+									eligible_items:
+										data.eligible_items,
+									defective_items: data.defective_items,
+								});
+							}}
+							className="btn">
+							<CachedIcon />
+						</div>}
 						<input
 							type="number"
 							name="eligible_items"
@@ -163,33 +210,63 @@ export default function InputBarangModal({ onCancel, onConfirm, data }) {
 								})
 							}
 						/>
-						<div
-							onClick={() =>
-								payload.eligible_items > 0 &&
+						{!editQtyStatus.plus ? <div
+							onClick={() => {
+								if (edit) {
+									setEditQtyStatus({...setEditQtyStatus, minus: true});
+								}
 								setPayload({
 									...payload,
-									eligible_items: payload.eligible_items - 1,
-								})
-							}
+									eligible_items:
+										payload.eligible_items - 1,
+								});
+							}}
 							className="btn">
 							<RemoveIcon />
-						</div>
+						</div> : <div
+							onClick={() => {
+								setEditQtyStatus({plus: false, minus: false});
+								setPayload({
+									...payload,
+									eligible_items:
+										data.eligible_items,
+									defective_items: data.defective_items,
+								});
+							}}
+							className="btn">
+							<CachedIcon />
+						</div>}
 					</div>
 				</div>
 				<div className="form-input">
 					<label htmlFor="defective_items">Unusable</label>
 					<div className="number-input">
-						<div
-							onClick={() =>
+						{!editQtyStatus.minus ? <div
+							onClick={() => {
+								if (edit) {
+									setEditQtyStatus({...setEditQtyStatus, plus: true});
+								}
 								setPayload({
 									...payload,
 									defective_items:
 										payload.defective_items + 1,
-								})
-							}
+								});
+							}}
 							className="btn">
 							<AddIcon />
-						</div>
+						</div> : <div
+							onClick={() => {
+								setEditQtyStatus({plus: false, minus: false});
+								setPayload({
+									...payload,
+									defective_items:
+										data.defective_items,
+									eligible_items: data.eligible_items,
+								});
+							}}
+							className="btn">
+							<CachedIcon />
+						</div>}
 						<input
 							type="number"
 							name="defective_items"
@@ -204,40 +281,55 @@ export default function InputBarangModal({ onCancel, onConfirm, data }) {
 								})
 							}
 						/>
-						<div
-							onClick={() =>
-								payload.defective_items > 0 &&
+						{!editQtyStatus.plus ? <div
+							onClick={() => {
+								if (edit) {
+									setEditQtyStatus({...setEditQtyStatus, minus: true});
+								}
 								setPayload({
 									...payload,
 									defective_items:
 										payload.defective_items - 1,
-								})
-							}
+								});
+							}}
 							className="btn">
 							<RemoveIcon />
-						</div>
+						</div> : <div
+							onClick={() => {
+								setEditQtyStatus({plus: false, minus: false});
+								setPayload({
+									...payload,
+									defective_items:
+										data.defective_items,
+									eligible_items: data.eligible_items,
+								});
+							}}
+							className="btn">
+							<CachedIcon />
+						</div>}
 					</div>
 				</div>
 				<div className="form-input">
-					<label htmlFor="name_magnitudes">Magnitude</label>
+					<label htmlFor="magnitudes">Magnitude</label>
 					<select
 						onChange={(event) => {
 							if (event.target.value === "addnew") {
 								setIsAddNewMagnitude(true);
 								setPayload({
 									...payload,
-									name_magnitudes: "",
+									magnitudes: "",
 								});
 							} else {
 								setIsAddNewMagnitude(false);
 								setPayload({
 									...payload,
-									name_magnitudes: event.target.value,
+									magnitudes: event.target.value,
 								});
 							}
 						}}
-						name="name_magnitudes"
-						id="name_magnitudes">
+						defaultValue={payload.magnitudes}
+						name="magnitudes"
+						id="magnitudes">
 						<option value="" disabled>
 							Enter Product Magnitude
 						</option>
@@ -262,10 +354,10 @@ export default function InputBarangModal({ onCancel, onConfirm, data }) {
 							type="text"
 							name="add_name_magnitudes"
 							id="add_name_magnitudes"
-							value={categoryPayload.name_magnitudes}
+							value={magnitudePayload.name_magnitudes}
 							onChange={(event) =>
-								setCategoryPayload({
-									...categoryPayload,
+								setMagnitudePayload({
+									...magnitudePayload,
 									name_magnitudes: event.target.value,
 								})
 							}
@@ -278,9 +370,10 @@ export default function InputBarangModal({ onCancel, onConfirm, data }) {
 						onChange={(event) =>
 							setPayload({
 								...payload,
-								name_categories: event.target.value,
+								categories: event.target.value,
 							})
 						}
+						defaultValue={payload.categories}
 						name="category"
 						id="category">
 						<option value="" disabled>
@@ -309,7 +402,7 @@ export default function InputBarangModal({ onCancel, onConfirm, data }) {
 						Discard
 					</button>
 					<button type="submit" className="btn-confirm">
-						Add Product
+						{edit ? "Edit Product" : "Add Product"}
 					</button>
 				</div>
 			</form>
