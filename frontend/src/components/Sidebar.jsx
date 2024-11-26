@@ -71,13 +71,6 @@ function Sidebar() {
             )}
           </li>
         ))}
-        <button onClick={(e) => {
-            e.preventDefault();
-            console.log("Items: ", items);
-            console.log("Logs: ", logs);
-            console.log("Categories: ", categories);
-            console.log("Magnitudes: ", magnitudes);
-        }}>Check State</button>
       </ul>
     </div>
   );

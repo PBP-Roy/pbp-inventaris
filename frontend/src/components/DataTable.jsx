@@ -14,6 +14,7 @@ import { mkConfig, generateCsv, download } from "export-to-csv";
 import { postItems, putItems, deleteItems } from "../api/itemsApi";
 import { useStateContext } from "../contexts/ContextProvider";
 import SuccessModal from "./SuccessModal";
+import { deleteLogs } from "../api/logsApi";
 
 const DataTable = ({ data, setData, type }) => {
 	const { items, magnitudes, categories } = useStateContext();
@@ -226,7 +227,7 @@ const DataTable = ({ data, setData, type }) => {
     });
 	};
 
-  const handleDeleteData = async (payload) => {
+  const handleDeleteItem = async (payload) => {
     await deleteItems(payload.id).then(() => {
       setData(data.filter((item) => item.id !== payload.id));
       setSuccessModalMessage("Product removed successfully!");
@@ -234,6 +235,16 @@ const DataTable = ({ data, setData, type }) => {
     }).catch(() => {
       alert("Failed to remove product!");
     });
+  }
+
+  const handleDeleteLog = async (payload) => {
+    await deleteLogs(payload.id).then(() => {
+      setData(data.filter((log) => log.id !== payload.id));
+      setSuccessModalMessage("Log removed successfully!");
+      setSuccessModalOpen(true);
+    }).catch(() => {
+      alert("Failed to remove log!");
+    })
   }
 
 	const handleOpenEditModal = (row) => {
@@ -321,7 +332,7 @@ const DataTable = ({ data, setData, type }) => {
 				<Tooltip title="Delete">
 					<IconButton
 						color="error"
-						onClick={() => handleDeleteData(row.original)}>
+						onClick={() => type === "all" ? handleDeleteItem(row.original) : handleDeleteLog(row.original)}>
 						<DeleteIcon />
 					</IconButton>
 				</Tooltip>
