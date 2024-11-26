@@ -66,7 +66,7 @@ const DefaultLayout = () => {
         <Navbar />
         <Sidebar />
         <main style={{marginLeft: "250px", marginTop: "80px", padding: "20px"}}>
-            {isLoading ? <h1>Loading...</h1> : <Outlet />}
+            {isLoading ? <h2>Loading...</h2> : <Outlet />}
         </main>
         </>
     )
