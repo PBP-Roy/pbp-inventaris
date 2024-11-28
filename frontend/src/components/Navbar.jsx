@@ -23,7 +23,7 @@ function Navbar() {
         <>
             <div className="navbar-container">
                 <div className="navbar-left">
-                    <div className="user-name"><Link to="/profile" style={{textDecoration: 'none', color: 'black'}}>Arthur</Link></div>
+                    <div className="user-name"><Link to="/profile" style={{textDecoration: 'none', color: 'black'}}>Dadang Fahrudin</Link></div>
                     <div className="date-options">
                         <input
                             type="date"
@@ -36,7 +36,7 @@ function Navbar() {
                 <div className="navbar-right">
                     <div className="notification"><NotificationsNoneIcon /></div>
                     <div className="profil-user">
-                        <Link to="/profile"><img src="/src/assets/profile.jpg" alt="Profile" id="user-image" /></Link>
+                        <Link to="/profile"><img src="/src/assets/daffa.jpg" alt="Profile" id="user-image" /></Link>
                         
                     </div>
                 </div>
