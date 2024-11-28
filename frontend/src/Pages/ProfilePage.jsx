@@ -18,7 +18,6 @@ function ProfilePage() {
                             <div className="name-container">
                                 <div className="title-name">Name</div>
                                 <div className="box-name">
-                                    {/* Daffa muzhaffar fakhrudin */}
                                     <div className="icon-name"><img src="/src/assets/human.jpg" alt="" /></div>
                                     <div className="vertical-divider"></div>
                                     <div className="content-name"></div>
@@ -27,7 +26,6 @@ function ProfilePage() {
                             <div className="email-container">
                                 <div className="title-email">Email</div>
                                 <div className="box-email">
-                                    {/* daffaxfurina@gmail.com */}
                                     <div className="icon-email"><img src="/src/assets/human.jpg" alt="" /></div>
                                     <div className="vertical-divider"></div>
                                     <div className="content-email">
@@ -35,16 +33,43 @@ function ProfilePage() {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className="bio-label">Name</div>
-                            <div className="vertical-divider"></div>
-                            <div className="bio-value">Daffa</div> */}
                         </div>
                     </div>
                     
                 </div>
                 <div className="title-password"><h1>Password</h1></div>
                 <div className="password-option">
-                    
+                    <div className="option-1">
+                        <div className="oldpass-container">
+                            <div className="title-oldpass">Old Password</div>
+                            <div className="box-oldpass">
+                                <div className="icon-password"><img src="/src/assets/lock.jpg" alt="" /></div>
+                                <div className="vertical-divider"></div>
+                                <div className="content-email"></div>
+                            </div>
+                        </div>
+                        <div className="confirmpass-container">
+                            <div className="title-confirmpass">Confirm Password*</div>
+                            <div className="box-confirmpass">
+                                <div className="icon-password"><img src="/src/assets/lock.jpg" alt="" /></div>
+                                <div className="vertical-divider"></div>
+                                <div className="content-email"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="option-2">
+                        <div className="newpass-container">
+                            <div className="title-newpass">New Password*</div>
+                            <div className="box-newpass">
+                                <div className="icon-password"><img src="/src/assets/lock.jpg" alt="" /></div>
+                                <div className="vertical-divider"></div>
+                                <div className="content-email"></div>
+                            </div>
+                        </div>
+                        <div className="updatepass-container">
+                            <button type="submit" className="update-pass">Update New Password</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

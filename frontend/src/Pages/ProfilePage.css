@@ -7,12 +7,14 @@
   size: 30px;
   margin: 10px 10px 10px 10px;
   padding-left: 50px;
+  padding-top: 20px;
   text-align: left;
 }
 
 .detail-profile {
   display: flex;
   flex-direction: column;
+  padding-top: 20px;
 }
 
 .profile-img {
@@ -36,6 +38,7 @@
 .update-img-pr {
   height: 55px;
   width: 336px;
+  padding-left: 60px;
 }
 
 .update-img {
@@ -162,7 +165,130 @@
 .title-password h1 {
   font-weight: bold;
   size: 30px;
-  margin: 10px 10px 10px 10px;
+  margin: 50px 10px 15px 10px;
   padding-left: 50px;
   text-align: left;
+}
+
+.password-option {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 100px;
+}
+
+.option-1 {
+  display: flex;
+  gap: 20px;
+}
+
+.option-2 {
+  display: flex;
+  gap: 20px;
+}
+
+.oldpass-container {
+  display: flex;
+  flex-direction: column;
+  flex: 50%;
+  gap: 10px;
+}
+
+.title-oldpass {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 60px;
+}
+
+.confirmpass-container {
+  display: flex;
+  flex-direction: column;
+  flex: 50%;
+  gap: 10px;
+}
+
+.title-confirmpass {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: left;
+  /* padding-left: 60px; */
+}
+
+.newpass-container {
+  display: flex;
+  flex-direction: column;
+  flex: 50%;
+  gap: 10px;
+}
+
+.title-newpass {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 60px;
+}
+
+.updatepass-container {
+  display: flex;
+  flex-direction: column;
+  flex: 50%;
+  gap: 10px;
+  justify-content: end;
+}
+
+.update-pass {
+  width: 90%;
+  height: 55%;
+  border: none;
+  border-radius: 15px;
+  background-color: #007bff;
+  color: white;
+  font-size: 15px;
+}
+
+.box-oldpass {
+  margin-left: 60px;
+  /* margin-right: 60px; */
+  display: flex;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  gap: 10px;
+}
+
+.box-confirmpass {
+  /* margin-left: 60px; */
+  margin-right: 60px;
+  display: flex;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  gap: 10px;
+}
+
+.box-newpass {
+  /* margin-left: 60px; */
+  margin-left: 60px;
+  display: flex;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  gap: 10px;
+}
+
+.icon-password {
+  height: 30px;
+  width: 30px;
+}
+
+.icon-password img {
+  height: 100%;
+  width: 100%;
 }
