@@ -31,6 +31,6 @@ export const SidebarData = [
     {
         title: "Reports",
         icon: <EqualizerIcon />,
-        link: "/reports"
+        link: "/reports/in"
     }
 ];

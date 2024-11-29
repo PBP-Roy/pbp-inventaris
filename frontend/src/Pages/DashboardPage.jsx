@@ -1,7 +1,45 @@
-import { useState } from "react";
+import { useMemo } from "react";
+import { useStateContext } from "../contexts/ContextProvider";
+import DataVisual from "../components/DataVisual";
 import "./DashboardPage.css";
 
 function DashboardPage() {
+  const { magnitudes, logs, items, summary, lowStockProducts } = useStateContext();
+  const apiURL = "http://localhost:8000";
+  const chartData = useMemo(() => {
+    const labels = logs.map(log => new Date(log.created_at).toLocaleDateString());
+    const eligibleProducts = logs.map(log => log.eligible_log_items);
+    const defectiveProducts = logs.map(log => log.defectives_log_items);
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: "Eligible Products",
+          data: eligibleProducts,
+          borderColor: "#4F86F9",
+          backgroundColor: "rgba(79, 134, 249, 0.2)",
+          tension: 0.4,
+          pointBackgroundColor: "#4F86F9",
+          pointBorderColor: "#fff",
+          pointHoverRadius: 8,
+          pointRadius: 6,
+        },
+        {
+          label: "Defective Products",
+          data: defectiveProducts,
+          borderColor: "#ff2525",
+          backgroundColor: "rgba(229, 184, 160, 0.2)",
+          tension: 0,
+          pointBackgroundColor: "#ff2525",
+          pointBorderColor: "#fff",
+          pointHoverRadius: 8,
+          pointRadius: 6,
+        },
+      ],
+    };
+  }, [logs]);
+
   return (
     <>
       <div className="dashboard-content">
@@ -16,7 +54,7 @@ function DashboardPage() {
                   id="icon-summary-item"
                 />
               </div>
-              <div className="quantity-summary">14</div>
+              <div className="quantity-summary">{summary.total_categories}</div>
               <div className="title-summary"></div>
               Total Categories
             </div>
@@ -29,7 +67,7 @@ function DashboardPage() {
                   id="icon-summary-item"
                 />
               </div>
-              <div className="quantity-summary">199</div>
+              <div className="quantity-summary">{summary.total_products}</div>
               <div className="title-summary"></div>
               Total Products
             </div>
@@ -42,7 +80,7 @@ function DashboardPage() {
                   id="icon-summary-item"
                 />
               </div>
-              <div className="quantity-summary">180</div>
+              <div className="quantity-summary">{summary.total_products_in}</div>
               <div className="title-summary"></div>
               Total Product-in
             </div>
@@ -55,83 +93,30 @@ function DashboardPage() {
                   id="icon-summary-item"
                 />
               </div>
-              <div className="quantity-summary">14</div>
+              <div className="quantity-summary">{summary.total_products_out}</div>
               <div className="title-summary"></div>
               Total Product-out
-            </div>
-            <div className="vertical-divider"></div>
-            <div className="summary-item">
-              <div className="icon-summary">
-                <img
-                  src="/src/assets/broken-product.jpg"
-                  alt=""
-                  id="icon-summary-item"
-                />
-              </div>
-              <div className="quantity-summary">4</div>
-              <div className="title-summary"></div>
-              Total Broken Product
             </div>
           </div>
         </div>
         <div className="low-stock">
           <p id="title-subtable">Low Quantity Stock</p>
           <div className="ls-product-container">
-            <div className="ls-product">
-              <div className="ls-image">
-                <img src="/src/assets/lays.jpg" alt="" id="img-ls" />
-              </div>
-              <div className="ls-content">
-                <div className="ls-name">Lays</div>
-                <div className="ls-quantity">
-                  Remaining Quantity : 10 Packet
+            {lowStockProducts.length > 0 ? lowStockProducts.map((product, index) => {
+              return (
+                <div key={index} className="ls-product">
+                  <div className="ls-image">
+                    <img src={product.image ? `${apiURL}/storage/${product.image}` : '/src/assets/defaultItemImage.png'} alt="" id="img-ls" />
+                  </div>
+                  <div className="ls-content">
+                    <div className="ls-name">{product.name_items}</div>
+                    <div className="ls-quantity">
+                      Remaining Quantity : {product.eligible_items + product.defective_items} {magnitudes.find(magnitude => magnitude.id === product.magnitudes_id).name_magnitudes}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="ls-product">
-              <div className="ls-image">
-                <img src="/src/assets/lays.jpg" alt="" id="img-ls" />
-              </div>
-              <div className="ls-content">
-                <div className="ls-name">Lays</div>
-                <div className="ls-quantity">
-                  Remaining Quantity : 15 Packet
-                </div>
-              </div>
-            </div>
-            <div className="ls-product">
-              <div className="ls-image">
-                <img src="/src/assets/lays.jpg" alt="" id="img-ls" />
-              </div>
-              <div className="ls-content">
-                <div className="ls-name">Lays</div>
-                <div className="ls-quantity">
-                  Remaining Quantity : 18 Packet
-                </div>
-              </div>
-            </div>
-            <div className="ls-product">
-              <div className="ls-image">
-                <img src="/src/assets/lays.jpg" alt="" id="img-ls" />
-              </div>
-              <div className="ls-content">
-                <div className="ls-name">Lays</div>
-                <div className="ls-quantity">
-                  Remaining Quantity : 19 Packet
-                </div>
-              </div>
-            </div>
-            <div className="ls-product">
-              <div className="ls-image">
-                <img src="/src/assets/lays.jpg" alt="" id="img-ls" />
-              </div>
-              <div className="ls-content">
-                <div className="ls-name">Lays</div>
-                <div className="ls-quantity">
-                  Remaining Quantity : 20 Packet
-                </div>
-              </div>
-            </div>
+              )
+            }) : <div className="no-product">No product with low stock</div>}
           </div>
         </div>
         <div className="top-product">
@@ -241,56 +226,11 @@ function DashboardPage() {
         </div>
         <div className="report-visualization">
           <p id="title-subtable">Report Visualization</p>
+          <div className="chart">
+            <DataVisual chartData={chartData} />
+          </div>
         </div>
       </div>
-      {/* <main className="main-content">
-
-                    <section className="summary">
-                        <div className="summary-item">
-                            <span>31</span>
-                            <p>Number of Suppliers</p>
-                        </div>
-                        <div className="summary-item">
-                            <span>14</span>
-                            <p>Number of Categories</p>
-                        </div>
-                        <div className="summary-item">
-                            <span>60</span>
-                            <p>Total Product</p>
-                        </div>
-                    </section>
-
-                    <section className="top-products">
-                        <h2>Top 10 Products</h2>
-                        <div className="product-grid">
-                            <div className="product-card">
-                                <img src="/path/to/product.jpg" alt="Product" />
-                                <p>Es Teh</p>
-                                <span>100 packets</span>
-                                <span>Rp 430</span>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="low-quantity">
-                        <h2>Low Quantity Stock</h2>
-                        <div className="low-product">
-                            <img src="/path/to/product.jpg" alt="Product" />
-                            <p>Tata Salt</p>
-                            <span>Remaining Quantity: 10</span>
-                            <span className="status low">Low</span>
-                        </div>
-                        
-                    </section>
-
-                    <section className="chart-section">
-                        <h2>Profit & Revenue</h2>
-                        <div className="chart">
-        
-                            <img src="/path/to/chart-placeholder.png" alt="Chart" />
-                        </div>
-                    </section>
-                </main> */}
     </>
   );
 }

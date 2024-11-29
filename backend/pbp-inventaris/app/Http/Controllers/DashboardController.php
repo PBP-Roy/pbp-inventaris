@@ -75,15 +75,9 @@ class DashboardController extends Controller
         // Mengambil produk dengan stock rendah langsung dari database
         $lowStockProducts = Item::whereRaw('(eligible_items + defective_items) < 5')->get();
     
-        if ($lowStockProducts->isNotEmpty()) {
-            return response()->json([
-                'Message' => 'Data berhasil diambil',
-                'Low Quantity Stock' => $lowStockProducts,
-            ]);
-        } else {
-            return response()->json([
-                'Message' => 'Tidak ada produk dengan stock rendah',
-            ], 404);
-        }
+        return response()->json([
+            'Message' => 'Data berhasil diambil',
+            'LowQuantityStock' => $lowStockProducts,
+        ]);
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Log_ItemController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\AuthController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,11 +67,11 @@ Route::get('/users', [UserController::class, 'index']);
 
 Route::get('/users/{id}', [UserController::class, 'show']);
 
-Route::post('/users', [MagnitudeController::class, 'store']);
+Route::post('/users', [UserController::class, 'store']);
 
-Route::put('/users/{id}', [MagnitudeController::class, 'update']);
+Route::put('/users/{id}', [UserController::class, 'update']);
 
-Route::delete('/users/{id}', [MagnitudeController::class, 'destroy']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
 // CRUD item
 Route::get('/Item',[ItemController::class,'index']);
@@ -88,3 +89,5 @@ Route::get('/status',[StatusController::class, 'index']);
 
 // Get data for dashboard
 Route::get('/Dashboard',[DashboardController::class, 'dashboard']);
+Route::get('/summary', [DashboardController::class, 'Summary']);
+Route::get('/low', [DashboardController::class, 'LowStockProduct']);

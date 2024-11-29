@@ -29,7 +29,7 @@ const routes = createBrowserRouter([
         element: <ProfilePage />,
       },
       {
-        path: "/reports",
+        path: "/reports/:param",
         element: <Report />,
       },
     ],

@@ -2,56 +2,43 @@ import { createContext, useContext, useState } from "react";
 
 const StateContext = createContext({
     user: null,
-    token: null,
     items: [],
     categories: [],
     magnitudes: [],
     logs: [],
     statuses: [],
+    summary: {
+        total_categories: -1,
+        total_products: -1,
+        total_products_in: -1,
+        total_products_out: -1,
+    },
     setUser: () => {},
-    setToken: () => {},
     setItems: () => {},
     setCategories: () => {},
     setMagnitudes: () => {},
     setLogs: () => {},
-    setStatuses: () => {}
+    setStatuses: () => {},
+    setSummary: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
-    const [user, _setUser] = useState(sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null);
-    const [token, _setToken] = useState(sessionStorage.getItem('token'));
+    const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
     const [items, setItems] = useState([]);
     const [categories, setCategories] = useState([]);
     const [magnitudes, setMagnitudes] = useState([]);
     const [logs, setLogs] = useState([]);
     const [statuses, setStatuses] = useState([]);
-
-    const setUser = (user) => {
-        _setUser(user);
-        if(user) {
-            let User = {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                image: user.image,
-            }
-            sessionStorage.setItem('user', JSON.stringify(User));
-        } else {
-            sessionStorage.removeItem('user');
-        }
-    }
-
-    const setToken = (token) => {
-        _setToken(token);
-        if(token) {
-            sessionStorage.setItem('token', token);
-        } else {
-            sessionStorage.removeItem('token');
-        }
-    }
+    const [summary, setSummary] = useState({
+        total_categories: -1,
+        total_products: -1,
+        total_products_in: -1,
+        total_products_out: -1,
+    });
+    const [lowStockProducts, setLowStockProducts] = useState([]);
 
     return (
-        <StateContext.Provider value={{ user, token, items, categories, magnitudes, logs, statuses, setUser, setToken, setItems, setCategories, setMagnitudes, setLogs, setStatuses }}>
+        <StateContext.Provider value={{ user, items, categories, magnitudes, logs, statuses, summary, lowStockProducts, setUser, setItems, setCategories, setMagnitudes, setLogs, setStatuses, setSummary, setLowStockProducts }}>
             {children}
         </StateContext.Provider>
     )

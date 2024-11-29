@@ -50,7 +50,7 @@ export default function InputBarangModal({
 	);
 	const [magnitudePayload, setMagnitudePayload] = useState({
 		name_magnitudes: "",
-		users_id: 1, // TODO: Change to user.id when register/login is done
+		users_id: user.id,
 	});
 
 	const onDrop = useCallback((acceptedFiles) => {
@@ -413,7 +413,6 @@ export default function InputBarangModal({
 								<option value="" disabled>
 									Enter Product Magnitude
 								</option>
-								{/* TODO: Select option when editing */}
 								{magnitudes.map((magnitude) => {
 									return (
 										<option
@@ -461,7 +460,6 @@ export default function InputBarangModal({
 								<option value="" disabled>
 									Enter Product Category
 								</option>
-								{/* TODO: Select option when editing */}
 								{categories.map((category) => {
 									return (
 										<option

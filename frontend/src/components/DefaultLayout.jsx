@@ -9,13 +9,13 @@ import { getCategories } from "../api/categoriesApi";
 import { getMagnitudes } from "../api/magnitudesApi";
 import { getLogs } from "../api/logsApi";
 import { getStatuses } from "../api/statusesApi";
+import { getLowStockProducts, getSummary } from "../api/dashboardApi";
 
 const DefaultLayout = () => {
-    // const { token } = useStateContext();
-    // if (!token) {
-    //     return <Navigate to='/login' />
-    // }
-    const { items, categories, magnitudes, statuses, setItems, setCategories, setMagnitudes, setLogs, setStatuses } = useStateContext();
+    if (!localStorage.getItem("token")) {
+        return <Navigate to='/guest/login' />
+    }
+    const { items, categories, magnitudes, statuses, summary, lowStockProducts, user, setItems, setCategories, setMagnitudes, setLogs, setStatuses, setSummary, setLowStockProducts } = useStateContext();
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchItems = async () => {
@@ -38,6 +38,19 @@ const DefaultLayout = () => {
         const data = await getStatuses();
         setStatuses(data.data);
     }
+    const fetchSummary = async () => {
+        const data = await getSummary();
+        setSummary({
+            total_categories: data.TotalCategory,
+            total_products: data.TotalProduct,
+            total_products_in: data.TotalProductIn,
+            total_products_out: data.TotalProductOut,
+        })
+    }
+    const fetchLowStockProducts = async () => {
+        const data = await getLowStockProducts();
+        setLowStockProducts(data.LowQuantityStock);
+    }
 
     const fetchAllData = async () => {
         fetchItems();
@@ -45,6 +58,8 @@ const DefaultLayout = () => {
         fetchMagnitudes();
         fetchLogs();
         fetchStatuses();
+        fetchSummary();
+        fetchLowStockProducts();
     }
 
     useEffect(() => {
@@ -56,10 +71,10 @@ const DefaultLayout = () => {
     }, [items])
 
     useEffect(() => {
-        if (categories.length > 0 && magnitudes.length > 0 && statuses.length > 0) {
+        if (categories.length > 0 && magnitudes.length > 0 && statuses.length > 0 && summary.total_categories >= 0 && user) {
             setIsLoading(false);
         }
-    }, [categories, magnitudes, statuses])
+    }, [categories, magnitudes, statuses, user])
 
     return (
         <>
