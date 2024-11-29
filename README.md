@@ -61,3 +61,4 @@ Aplikasi ini dirancang untuk membantu industri UMKM dalam mengelola logistik dan
 
 
 ## Screenshot Tampilan
+![IMG-20241129-WA0013](https://github.com/user-attachments/assets/354e2115-47fa-4149-83a9-acc403ba0b43)
