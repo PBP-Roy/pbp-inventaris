@@ -6,7 +6,13 @@
 Aplikasi ini dirancang untuk membantu industri UMKM dalam mengelola logistik dan inventaris barang secara efisien. Aplikasi memungkinkan pengguna untuk mencatat barang yang ada di inventaris, menambah stok barang yang sudah ada, serta mengurangi atau menghapus barang yang sudah tidak diperlukan. Dengan menggunakan aplikasi ini, membantu pengusaha untuk memantau barang yang ada dan memastikan stok yang tersedia selalu dalam jumlah yang cukup, sehingga menghindari kekurangan atau kelebihan stok yang dapat mempengaruhi operasional bisnis. Pengusaha UMKM dapat lebih mudah memantau stok barang dan mengoptimalkan proses mengelola inventaris.
 
 ## Fitur-Fitur
-
+- Catatan stok barang saat ini
+    - Stok barang ditampilkan dalam bentuk tabel
+- Catatan barang masuk
+    - Barang baru diinputkan lewat form yang terdapat di page terpisah
+    - Barang yang sudah ada, jika ingin menambah stok, cukup dengan mengklik tombol plus pada tabel stok
+- Catatan barang keluar
+    - Catatan pengeluaran barang dilakukan di akhir hari lewat page terpisah, dimana user memasukkan barang apa saja yang keluar, serta berapa yang keluar
 
 ## Teknologi yang Digunakan  
 
