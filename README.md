@@ -17,14 +17,33 @@
 Aplikasi ini dirancang untuk membantu industri UMKM dalam mengelola logistik dan inventaris barang secara efisien. Aplikasi memungkinkan pengguna untuk mencatat barang yang ada di inventaris, menambah stok barang yang sudah ada, serta mengurangi atau menghapus barang yang sudah tidak diperlukan. Dengan menggunakan aplikasi ini, membantu pengusaha untuk memantau barang yang ada dan memastikan stok yang tersedia selalu dalam jumlah yang cukup, sehingga menghindari kekurangan atau kelebihan stok yang dapat mempengaruhi operasional bisnis. Pengusaha UMKM dapat lebih mudah memantau stok barang dan mengoptimalkan proses mengelola inventaris.
 
 
-## Fitur-Fitur
-- Catatan stok barang saat ini
-    - Stok barang ditampilkan dalam bentuk tabel
-- Catatan barang masuk
-    - Barang baru diinputkan lewat form yang terdapat di page terpisah
-    - Barang yang sudah ada, jika ingin menambah stok, cukup dengan mengklik tombol plus pada tabel stok
-- Catatan barang keluar
-    - Catatan pengeluaran barang dilakukan di akhir hari lewat page terpisah, dimana user memasukkan barang apa saja yang keluar, serta berapa yang keluar
+## Fitur Utama
+-  **Dashboard**
+	-  Product Summary
+		fitur ini memberikan informasi terkait :
+		- Total  Categories
+		- Total Product
+		- Total Product-in
+		- Total Product-out
+		- Total Broken Product
+	- Top 10 Product
+		- fitur ini memberikan 10 produk teratas yang ter detect keluar dari inventori sehingga dapat di asumsikan produk tersebut laku
+	-  Low Quantitty Stock
+		- fitur ini memberikan product yang sedang dalam keadaan kurang dari 
+-  **Inventory**
+	- All Product
+		- fitur ini menampilkan informasi terkait semua produk yang sudah ada di inventori
+	- Product in
+		- fitur ini menampilkan informasi terkait semua produk yang masuk kedalam inventori
+	- Procuct Out
+		- fitur ini menampilkan informasi terkait semua produk yang keluar dari inventori
+ - **Reports**
+	- Overview
+		- fitur ini menampilkan informasi terkait total produk yang ada dengan produk masuk 
+-  Data Visualization
+	- fitur ini menampilkan visualisasi dari produk masuk dan keluar 
+-  **Tanggal**
+-  **User Profile**
 
 
 ## Teknologi yang Digunakan  
