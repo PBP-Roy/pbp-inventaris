@@ -1,5 +1,16 @@
 # Aplikasi Inventris UMKM
 ## Daftar Anggota
+- UI/UX Designer
+    - Fadilah
+- Frontend
+    - Rio
+    - Bimo
+- Backend
+    - Luthfi
+    - Ais
+- System Analyst
+    - Nesta
+    - Daffa
 
 
 ## Deskripsi Aplikasi
