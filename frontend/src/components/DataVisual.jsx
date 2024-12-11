@@ -22,35 +22,36 @@ ChartJS.register(
   Legend
 );
 
-const CustomChart = () => {
+const CustomChart = ({ chartData }) => {
   // Data untuk grafik
-  const data = {
-    labels: ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
-    datasets: [
-      {
-        label: "Product-in",
-        data: [20000, 40000, 60000, 50000, 70000, 50000, 60000],
-        borderColor: "#4F86F9", // Warna biru untuk garis
-        backgroundColor: "rgba(79, 134, 249, 0.2)",
-        tension: 0.4, // Garis melengkung
-        pointBackgroundColor: "#4F86F9",
-        pointBorderColor: "#fff",
-        pointHoverRadius: 8,
-        pointRadius: 6,
-      },
-      {
-        label: "Product-out",
-        data: [30000, 30000, 50000, 60000, 60000, 40000, 50000],
-        borderColor: "#E5B8A0", // Warna oranye untuk garis
-        backgroundColor: "rgba(229, 184, 160, 0.2)",
-        tension: 0.4,
-        pointBackgroundColor: "#E5B8A0",
-        pointBorderColor: "#fff",
-        pointHoverRadius: 8,
-        pointRadius: 6,
-      },
-    ],
-  };
+  // const data = {
+  //   labels: ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+  //   datasets: [
+  //     {
+  //       label: "Product-in",
+  //       data: [20000, 40000, 60000, 50000, 70000, 50000, 60000],
+  //       borderColor: "#4F86F9", // Warna biru untuk garis
+  //       backgroundColor: "rgba(79, 134, 249, 0.2)",
+  //       tension: 0.4, // Garis melengkung
+  //       pointBackgroundColor: "#4F86F9",
+  //       pointBorderColor: "#fff",
+  //       pointHoverRadius: 8,
+  //       pointRadius: 6,
+  //     },
+  //     {
+  //       label: "Product-out",
+  //       data: [30000, 30000, 50000, 60000, 60000, 40000, 50000],
+  //       borderColor: "#E5B8A0", // Warna oranye untuk garis
+  //       backgroundColor: "rgba(229, 184, 160, 0.2)",
+  //       tension: 0.4,
+  //       pointBackgroundColor: "#E5B8A0",
+  //       pointBorderColor: "#fff",
+  //       pointHoverRadius: 8,
+  //       pointRadius: 6,
+  //     },
+  //   ],
+  // };
+  const data = chartData; 
 
   // Opsi untuk grafik
   const options = {

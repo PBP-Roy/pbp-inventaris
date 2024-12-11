@@ -13,10 +13,14 @@ import { MRT_CustomCSVDownload } from "./MRT_CustomCSVDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv";
 import { postItems, putItems, deleteItems } from "../api/itemsApi";
 import { useStateContext } from "../contexts/ContextProvider";
+import SuccessModal from "./SuccessModal";
+import { deleteLogs } from "../api/logsApi";
 
 const DataTable = ({ data, setData, type }) => {
 	const { items, magnitudes, categories } = useStateContext();
 	const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
+  const [successModalMessage, setSuccessModalMessage] = useState("");
 	const [rowData, setRowData] = useState(null);
 
 	let tableHeader;
@@ -196,7 +200,11 @@ const DataTable = ({ data, setData, type }) => {
 				defective_items: parseInt(res.data.defective_items),
 			};
 			setData([...data, newData]);
-		});
+      setSuccessModalMessage("Product added successfully!");
+      setSuccessModalOpen(true);
+		}).catch(() => {
+      alert("Failed to add product!");
+    });
 	};
 
 	const handleEditData = async (payload) => {
@@ -212,13 +220,31 @@ const DataTable = ({ data, setData, type }) => {
 			setData(
 				data.map((item) => (item.id === res.data.id ? newData : item))
 			);
-		});
+      setSuccessModalMessage("Product updated successfully!");
+      setSuccessModalOpen(true);
+		}).catch(() => {
+      alert("Failed to update product!");
+    });
 	};
 
-  const handleDeleteData = async (payload) => {
+  const handleDeleteItem = async (payload) => {
     await deleteItems(payload.id).then(() => {
       setData(data.filter((item) => item.id !== payload.id));
+      setSuccessModalMessage("Product removed successfully!");
+      setSuccessModalOpen(true);
+    }).catch(() => {
+      alert("Failed to remove product!");
     });
+  }
+
+  const handleDeleteLog = async (payload) => {
+    await deleteLogs(payload.id).then(() => {
+      setData(data.filter((log) => log.id !== payload.id));
+      setSuccessModalMessage("Log removed successfully!");
+      setSuccessModalOpen(true);
+    }).catch(() => {
+      alert("Failed to remove log!");
+    })
   }
 
 	const handleOpenEditModal = (row) => {
@@ -230,6 +256,10 @@ const DataTable = ({ data, setData, type }) => {
 		setEditModalOpen(false);
 		setRowData(null);
 	};
+
+  const handleCloseSuccessModal = () => {
+    setSuccessModalOpen(false);
+  }
 
 	const table = useMaterialReactTable({
 		columns,
@@ -302,14 +332,17 @@ const DataTable = ({ data, setData, type }) => {
 				<Tooltip title="Delete">
 					<IconButton
 						color="error"
-						onClick={() => handleDeleteData(row.original)}>
+						onClick={() => type === "all" ? handleDeleteItem(row.original) : handleDeleteLog(row.original)}>
 						<DeleteIcon />
 					</IconButton>
 				</Tooltip>
 			</Box>
 		),
-		renderTopToolbar: ({ row, table }) => (
+		renderTopToolbar: ({ table }) => (
 			<>
+        {isSuccessModalOpen && (
+          <SuccessModal onClose={handleCloseSuccessModal} message={successModalMessage} />
+        )}
 				{isEditModalOpen && (
 					<InputBarangModal
 						data={rowData}

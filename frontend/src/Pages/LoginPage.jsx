@@ -1,8 +1,57 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUser, login } from '../api/userApi';
+import { useStateContext } from '../contexts/ContextProvider';
 import './LoginPage.css';
 
 function LoginPage() {
+    const { setUser } = useStateContext();
+    const [payload, setPayload] = useState({
+        email: "",
+        password: ""
+    });
+    const NavigateTo = useNavigate();
+
+    const handleChange = (e) => {
+        setPayload({ ...payload, [e.target.name]: e.target.value });
+    }
+
+    const validateInput = () => {
+        if (payload.email === "" || payload.password === "") {
+            alert("Please fill in all fields");
+            return false;
+        }
+        return true;
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (validateInput()) {
+            login(payload).then((res) => {
+                if (res.status === 200) {
+                    localStorage.setItem("token", res.data.token);
+                } else {
+                    alert("An error occurred");
+                }
+            }).then(() => {
+                getUser().then((res) => {
+                    if (res.status === 200) {
+                        localStorage.setItem("user", JSON.stringify(res.data));
+                        setUser({
+                            id: res.data.id,
+                            name: res.data.name,
+                            email: res.data.email,
+                            image: res.data.image
+                        });
+                        NavigateTo("/");
+                    } else {
+                        alert("An error occurred");
+                    }
+                })
+            });
+        }
+    }
+
     return (
         <>
             <div className='background-login'>
@@ -11,21 +60,15 @@ function LoginPage() {
                         <img src="/src/assets/logo.jpg" alt="Logo" className="login-logo" />
                         <h1>Log in to your account</h1>
                         <p>Welcome back! Please enter your details.</p>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <label>
                                 Email
-                                <input type="text" name="email" placeholder='Enter your email' required />
+                                <input type="text" name="email" placeholder='Enter your email' value={payload.email} onChange={(e) => handleChange(e)} required />
                             </label>
                             <label>
                                 Password
-                                <input type="password" name="password" placeholder='Enter your password' required />
+                                <input type="password" name="password" placeholder='Enter your password' value={payload.password} onChange={(e) => handleChange(e)} required />
                             </label>
-                            <div className="login-options">
-                                {/* <label>
-                                    <input type="checkbox" /> Remember for 30 days
-                                </label> */}
-                                <a href="" className="forgot-password">Forgot password</a>
-                            </div>
                             <button type="submit" className="login-btn">Sign in</button>
                             <p>Don't have an account? <Link to="/guest/register" className="signup-link">Sign up</Link></p>
                         </form>

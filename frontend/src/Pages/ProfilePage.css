@@ -2,9 +2,9 @@
   background-color: white;
 }
 
-.title-profile h1 {
+.title-profile {
   font-weight: bold;
-  size: 30px;
+  font-size: 35px;
   margin: 10px 10px 10px 10px;
   padding-left: 50px;
   padding-top: 20px;
@@ -44,11 +44,19 @@
 .update-img {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 15px;
   background-color: #007bff;
   color: white;
   font-size: 15px;
+}
+
+.update-img:hover {
+  background-color: #0056b3;
+  cursor: pointer;
 }
 
 .profile-bio {
@@ -162,9 +170,9 @@
 }
 
 
-.title-password h1 {
+.title-password {
   font-weight: bold;
-  size: 30px;
+  font-size: 35px;
   margin: 50px 10px 15px 10px;
   padding-left: 50px;
   text-align: left;
@@ -238,13 +246,19 @@
 }
 
 .update-pass {
-  width: 90%;
-  height: 55%;
+  width: 336px;
+  padding: 15px;
   border: none;
+  align-self: center;
   border-radius: 15px;
   background-color: #007bff;
   color: white;
   font-size: 15px;
+}
+
+.update-pass:hover {
+  background-color: #0056b3;
+  cursor: pointer;
 }
 
 .box-oldpass {
@@ -291,4 +305,16 @@
 .icon-password img {
   height: 100%;
   width: 100%;
+}
+
+.profile-input {
+  box-sizing: border-box;
+  border: none !important;
+  background-color: transparent;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.profile-input:focus {
+  outline: none;
 }

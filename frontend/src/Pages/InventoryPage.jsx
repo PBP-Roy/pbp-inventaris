@@ -5,7 +5,7 @@ import "./InventoryPage.css";
 import DataTable from "../components/DataTable";
 
 export default function InventoryPage() {
-	const { items, logs, setItems } = useStateContext();
+	const { items, logs, setItems, setLogs } = useStateContext();
 	const { param } = useParams();
 
 	return (
@@ -13,7 +13,7 @@ export default function InventoryPage() {
 			<div className="inventory-content">
 				<div className="container">
 					<div className="container-body">
-						<DataTable type={param} setData={setItems} data={param === 'all' ? items : param === 'in' ? logs.filter((log) => log.statuses_id === 1) : logs.filter((log) => log.statuses_id === 2)} />
+						<DataTable type={param} setData={param === "all" ? setItems : setLogs} data={param === 'all' ? items : param === 'in' ? logs.filter((log) => log.statuses_id === 1) : logs.filter((log) => log.statuses_id === 2)} />
 					</div>
 				</div>
 			</div>

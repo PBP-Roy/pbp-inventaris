@@ -24,7 +24,16 @@ body {
   background-color: white;
   padding: 8px 70px;
   border-radius: 8px;
+  border: 2px solid;
+  text-decoration: none;
   cursor: pointer;
+}
+
+.categoriProducts.active {
+  border: 2px solid;
+  background-color: #007aff;
+  transform: scale(1);
+  color: white;
 }
 
 .categoriProducts:hover {

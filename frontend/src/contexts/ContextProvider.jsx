@@ -2,56 +2,35 @@ import { createContext, useContext, useState } from "react";
 
 const StateContext = createContext({
     user: null,
-    token: null,
     items: [],
     categories: [],
     magnitudes: [],
     logs: [],
     statuses: [],
+    lowStockProducts: [],
+    topTenProducts: [],
     setUser: () => {},
-    setToken: () => {},
     setItems: () => {},
     setCategories: () => {},
     setMagnitudes: () => {},
     setLogs: () => {},
-    setStatuses: () => {}
+    setStatuses: () => {},
+    setLowStockProducts: () => {},
+    setTopTenProducts: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
-    const [user, _setUser] = useState(sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null);
-    const [token, _setToken] = useState(sessionStorage.getItem('token'));
+    const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
     const [items, setItems] = useState([]);
     const [categories, setCategories] = useState([]);
     const [magnitudes, setMagnitudes] = useState([]);
     const [logs, setLogs] = useState([]);
     const [statuses, setStatuses] = useState([]);
-
-    const setUser = (user) => {
-        _setUser(user);
-        if(user) {
-            let User = {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                image: user.image,
-            }
-            sessionStorage.setItem('user', JSON.stringify(User));
-        } else {
-            sessionStorage.removeItem('user');
-        }
-    }
-
-    const setToken = (token) => {
-        _setToken(token);
-        if(token) {
-            sessionStorage.setItem('token', token);
-        } else {
-            sessionStorage.removeItem('token');
-        }
-    }
+    const [lowStockProducts, setLowStockProducts] = useState([]);
+    const [topTenProducts, setTopTenProducts] = useState([]);
 
     return (
-        <StateContext.Provider value={{ user, token, items, categories, magnitudes, logs, statuses, setUser, setToken, setItems, setCategories, setMagnitudes, setLogs, setStatuses }}>
+        <StateContext.Provider value={{ user, items, categories, magnitudes, logs, statuses, lowStockProducts, topTenProducts, setUser, setItems, setCategories, setMagnitudes, setLogs, setStatuses, setLowStockProducts, setTopTenProducts }}>
             {children}
         </StateContext.Provider>
     )

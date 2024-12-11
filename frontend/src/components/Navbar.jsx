@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useStateContext } from "../contexts/ContextProvider";
+import { logout } from "../api/userApi";
 
 function Navbar() {
-
+    const { user } = useStateContext();
     const [date, setDate] = useState("");
+    const NavigateTo = useNavigate();
+    const apiURL = 'http://localhost:8000';
 
     // Set tanggal saat ini sebagai default
     useEffect(() => {
@@ -19,11 +23,19 @@ function Navbar() {
     setDate(event.target.value);
     };
 
+    const handleLogout = () => {
+        logout().then(() => {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            NavigateTo('/guest/login');
+        });
+    }
+
     return (
         <>
             <div className="navbar-container">
                 <div className="navbar-left">
-                    <div className="user-name"><Link to="/profile" style={{textDecoration: 'none', color: 'black'}}>Dadang Fahrudin</Link></div>
+                    <div className="user-name"><Link to="/profile" style={{textDecoration: 'none', color: 'black'}}>{user ? user.name : "Loading..."}</Link></div>
                     <div className="date-options">
                         <input
                             type="date"
@@ -34,9 +46,9 @@ function Navbar() {
                     </div>
                 </div>
                 <div className="navbar-right">
-                    <div className="notification"><NotificationsNoneIcon /></div>
+                    <div className="logout" onClick={handleLogout}><LogoutIcon /></div>
                     <div className="profil-user">
-                        <Link to="/profile"><img src="/src/assets/daffa.jpg" alt="Profile" id="user-image" /></Link>
+                        <Link to="/profile"><img src={user.image ? `${apiURL}/storage/${user.image}` : '/src/assets/daffa.jpg'} alt="Profile" id="user-image" /></Link>
                         
                     </div>
                 </div>

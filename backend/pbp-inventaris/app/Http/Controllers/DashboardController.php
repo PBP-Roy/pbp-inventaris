@@ -28,16 +28,13 @@ class DashboardController extends Controller
     {
         $summary = $this->Summary();
         $lowstock = $this->LowStockProduct();
-        if($summary && $lowstock)
-        {
+        if ($summary && $lowstock) {
             return response()->json([
                 'Message' => 'Data untuk dashboard berhasil diambil',
                 'Summary' => $summary,
                 'Low Quantity Stock' => $lowstock,
             ], 200);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'Message' => 'Data untuk dashboard gagal diambil',
             ], 404);
@@ -48,8 +45,7 @@ class DashboardController extends Controller
     {
         $summary = Item::all();
         $product = Log_item::all();
-        if($summary && $product)
-        {
+        if ($summary && $product) {
             $totalcategories = $summary->pluck('categories_id')->unique()->count();
             $totalproduct = $summary->pluck('id')->count();
             $totalproductin = $product->where('statuses_id', 1)->pluck('statuses_id')->count();
@@ -61,9 +57,7 @@ class DashboardController extends Controller
                 'TotalProductIn' => $totalproductin,
                 'TotalProductOut' => $totalproductout,
             ], 200);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'Message' => 'Gagal mengambil data'
             ], 404);
@@ -74,16 +68,26 @@ class DashboardController extends Controller
     {
         // Mengambil produk dengan stock rendah langsung dari database
         $lowStockProducts = Item::whereRaw('(eligible_items + defective_items) < 5')->get();
-    
-        if ($lowStockProducts->isNotEmpty()) {
-            return response()->json([
-                'Message' => 'Data berhasil diambil',
-                'Low Quantity Stock' => $lowStockProducts,
-            ]);
-        } else {
-            return response()->json([
-                'Message' => 'Tidak ada produk dengan stock rendah',
-            ], 404);
-        }
+
+        return response()->json([
+            'Message' => 'Data berhasil diambil',
+            'LowQuantityStock' => $lowStockProducts,
+        ]);
+    }
+
+    public function TopTenProducts()
+    {
+        $topTenProducts = Log_item::select('items_id')
+            ->selectRaw('SUM(eligible_log_items + defectives_log_items) as total_items')
+            ->where('statuses_id', 2)
+            ->groupBy('items_id')
+            ->orderByDesc('total_items')
+            ->take(10)
+            ->get();
+
+        return response()->json([
+            'Message' => 'Data berhasil diambil',
+            'TopTenProducts' => $topTenProducts,
+        ], 200);
     }
 }

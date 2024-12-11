@@ -9,42 +9,35 @@ import { getCategories } from "../api/categoriesApi";
 import { getMagnitudes } from "../api/magnitudesApi";
 import { getLogs } from "../api/logsApi";
 import { getStatuses } from "../api/statusesApi";
+import { getLowStockProducts, getTopTenProducts } from "../api/dashboardApi";
+import axiosClient from "../api/axiosClient";
 
 const DefaultLayout = () => {
-    // const { token } = useStateContext();
-    // if (!token) {
-    //     return <Navigate to='/login' />
-    // }
-    const { items, categories, magnitudes, statuses, setItems, setCategories, setMagnitudes, setLogs, setStatuses } = useStateContext();
+    if (!localStorage.getItem("token")) {
+        return <Navigate to='/guest/login' />
+    }
+    const { items, categories, magnitudes, statuses, logs, lowStockProducts, topTenProducts, user, setItems, setCategories, setMagnitudes, setLogs, setStatuses, setLowStockProducts, setTopTenProducts } = useStateContext();
     const [isLoading, setIsLoading] = useState(true);
 
-    const fetchItems = async () => {
-        const data = await getItems();
-        setItems(data.data);
-    }
-    const fetchCategories = async () => {
-        const data = await getCategories();
-        setCategories(data.data);
-    }
-    const fetchMagnitudes = async () => {
-        const data = await getMagnitudes();
-        setMagnitudes(data.data);
-    }
     const fetchLogs = async () => {
         const data = await getLogs();
         setLogs(data.data);
     }
-    const fetchStatuses = async () => {
-        const data = await getStatuses();
-        setStatuses(data.data);
-    }
 
     const fetchAllData = async () => {
-        fetchItems();
-        fetchCategories();
-        fetchMagnitudes();
-        fetchLogs();
-        fetchStatuses();
+        const data = await axiosClient.get('/all').then(res => {
+            return res.data.data;
+        }).catch(err => {
+            console.log(err);
+            return err;
+        })
+        setItems(data.items);
+        setCategories(data.categories);
+        setMagnitudes(data.magnitudes);
+        setLogs(data.logs);
+        setStatuses(data.statuses);
+        setLowStockProducts(data.lowStock);
+        setTopTenProducts(data.topTen);
     }
 
     useEffect(() => {
@@ -56,10 +49,10 @@ const DefaultLayout = () => {
     }, [items])
 
     useEffect(() => {
-        if (categories.length > 0 && magnitudes.length > 0 && statuses.length > 0) {
+        if (categories.length > 0 && magnitudes.length > 0 && statuses.length > 0 && user) {
             setIsLoading(false);
         }
-    }, [categories, magnitudes, statuses])
+    }, [categories, magnitudes, statuses, user])
 
     return (
         <>

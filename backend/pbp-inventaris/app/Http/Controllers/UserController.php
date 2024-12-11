@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class UserController extends Controller
@@ -85,30 +87,47 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        if(!$user) {
-            return response()->json([
-                'message' => 'Data pengguna tidak ditemukan',
-                'data' => null
-            ], 404);
-        }
+        $user = User::findOrFail($id);
 
         $validatedData = $request->validate([
             'name' => 'string|max:255',
             'email' => 'string|email|max:255|unique:users,email,'.$id,
-            'password' => 'string|min:8',
+            'password' => 'string|min:8|nullable',
         ]);
 
-        $user->update(array_filter([
-            'name' => $validatedData['name'] ?? $user->name,
-            'email' => $validatedData['email'] ?? $user->email,
-            'password' => isset($validatedData['password']) ? bcrypt($validatedData['password']) : $user->password,
-        ]));
+        $user->name = $validatedData['name'] ?? $user->name;
+        $user->email = $validatedData['email'] ?? $user->email;
+        if (!empty($validatedData['password'])) {
+            $user->password = bcrypt($validatedData['password']);
+        }
 
-        return response()->json([
-            'message' => 'Data pengguna berhasil diperbarui',
-            'data' => $user
-        ], 200);
+        // Menangani gambar jika ada
+        if ($request->hasFile('image')) {
+            // Menyimpan gambar baru
+            $imagePath = $request->file('image')->store('images', 'public');
+            // Menghapus gambar lama
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+            $user->image = $imagePath;
+        }
+
+        if ($user->save()) {
+            return response()->json([
+                'message' => 'Data pengguna berhasil diperbarui',
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'image' => $user->image ? url('storage/' . $user->image) : null,
+                ],
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Data pengguna gagal diperbarui',
+                'data' => null
+            ], 400);
+        }
     }
 
     /**
