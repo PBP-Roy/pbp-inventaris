@@ -152,6 +152,7 @@ body {
   width: 130px;
   padding: 10px;
   border-radius: 10px;
+  margin: auto;
 }
 
 .card-image img {

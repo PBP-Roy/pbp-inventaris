@@ -4,12 +4,12 @@ import DataVisual from "../components/DataVisual";
 import "./DashboardPage.css";
 
 function DashboardPage() {
-  const { magnitudes, logs, items, summary, lowStockProducts } = useStateContext();
+  const { magnitudes, categories, logs, items, lowStockProducts, topTenProducts } = useStateContext();
   const apiURL = "http://localhost:8000";
   const chartData = useMemo(() => {
-    const labels = logs.map(log => new Date(log.created_at).toLocaleDateString());
-    const eligibleProducts = logs.map(log => log.eligible_log_items);
-    const defectiveProducts = logs.map(log => log.defectives_log_items);
+  const labels = logs.map(log => new Date(log.created_at).toLocaleDateString());
+  const eligibleProducts = logs.map(log => log.eligible_log_items);
+  const defectiveProducts = logs.map(log => log.defectives_log_items);
 
     return {
       labels,
@@ -54,7 +54,7 @@ function DashboardPage() {
                   id="icon-summary-item"
                 />
               </div>
-              <div className="quantity-summary">{summary.total_categories}</div>
+              <div className="quantity-summary">{categories.length}</div>
               <div className="title-summary"></div>
               Total Categories
             </div>
@@ -67,7 +67,7 @@ function DashboardPage() {
                   id="icon-summary-item"
                 />
               </div>
-              <div className="quantity-summary">{summary.total_products}</div>
+              <div className="quantity-summary">{items.length}</div>
               <div className="title-summary"></div>
               Total Products
             </div>
@@ -80,7 +80,7 @@ function DashboardPage() {
                   id="icon-summary-item"
                 />
               </div>
-              <div className="quantity-summary">{summary.total_products_in}</div>
+              <div className="quantity-summary">{logs.filter(l => l.statuses_id == 1).length}</div>
               <div className="title-summary"></div>
               Total Product-in
             </div>
@@ -93,7 +93,7 @@ function DashboardPage() {
                   id="icon-summary-item"
                 />
               </div>
-              <div className="quantity-summary">{summary.total_products_out}</div>
+              <div className="quantity-summary">{logs.filter(l => l.statuses_id == 2).length}</div>
               <div className="title-summary"></div>
               Total Product-out
             </div>
@@ -122,106 +122,21 @@ function DashboardPage() {
         <div className="top-product">
           <p id="title-subtable">Top 10 Product</p>
           <div className="card-grid">
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
-            <div className="card-product">
-              <div className="card-image">
-                <img src="/src/assets/logo.jpg" alt="" />
-              </div>
-              <div className="card-content">
-                <div className="card-title">product</div>
-                <div className="card-category">category</div>
-              </div>
-              <div className="card-quantity">100 packets</div>
-            </div>
+            {topTenProducts.length > 0 ? topTenProducts.map((log, index) => {
+              const correspondingProduct = items.find(product => product.id === log.items_id);
+              return (
+                <div key={index} className="card-product">
+                  <div className="card-image">
+                    <img src={correspondingProduct.image ? `${apiURL}/storage/${correspondingProduct.image}` : `/src/assets/defaultItemImage.png`} alt="" />
+                  </div>
+                  <div className="card-content">
+                    <div className="card-title">{correspondingProduct.name_items}</div>
+                    <div className="card-category">{categories.find((c) => c.id == correspondingProduct.categories_id).name_categories}</div>
+                  </div>
+                  <div className="card-quantity">{log.total_items} {magnitudes.find(m => m.id == correspondingProduct.magnitudes_id).name_magnitudes}</div>
+                </div>
+              )
+            }) : <p>No product available</p>}
           </div>
         </div>
         <div className="report-visualization">

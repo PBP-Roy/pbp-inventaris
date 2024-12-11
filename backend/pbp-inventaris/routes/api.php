@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Log_ItemController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\fetchController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -91,3 +92,7 @@ Route::get('/status',[StatusController::class, 'index']);
 Route::get('/Dashboard',[DashboardController::class, 'dashboard']);
 Route::get('/summary', [DashboardController::class, 'Summary']);
 Route::get('/low', [DashboardController::class, 'LowStockProduct']);
+Route::get('/top', [DashboardController::class, 'TopTenProducts']);
+
+// Get all data from tables
+Route::get('/all', [fetchController::class, 'getAllData']);

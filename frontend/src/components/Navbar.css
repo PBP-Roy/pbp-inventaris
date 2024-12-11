@@ -41,9 +41,13 @@
   gap: 20px;
 }
 
-.notification {
+.logout {
   height: 30px;
   width: 30px;
+}
+
+.logout:hover {
+  cursor: pointer;
 }
 
 .profil-user {

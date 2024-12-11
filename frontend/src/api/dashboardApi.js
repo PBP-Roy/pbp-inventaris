@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 
-export async function getSummary() {
-    return await axiosClient.get('/summary').then((res) => {
+export async function getLowStockProducts() {
+    return await axiosClient.get('/low').then((res) => {
         return res.data;
     }).catch((err) => {
         console.log(err);
@@ -9,8 +9,8 @@ export async function getSummary() {
     });
 }
 
-export async function getLowStockProducts() {
-    return await axiosClient.get('/low').then((res) => {
+export async function getTopTenProducts() {
+    return await axiosClient.get('/top').then((res) => {
         return res.data;
     }).catch((err) => {
         console.log(err);

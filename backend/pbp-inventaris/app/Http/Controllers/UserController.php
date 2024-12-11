@@ -104,18 +104,23 @@ class UserController extends Controller
         // Menangani gambar jika ada
         if ($request->hasFile('image')) {
             // Menyimpan gambar baru
-            $imagePath = $request->file('image')->store('public/images');
+            $imagePath = $request->file('image')->store('images', 'public');
             // Menghapus gambar lama
             if ($user->image) {
-                Storage::disk('public')->delete($imagePath);
+                Storage::disk('public')->delete($user->image);
             }
-            $user->image = str_replace('public/', '', $imagePath);
+            $user->image = $imagePath;
         }
 
         if ($user->save()) {
             return response()->json([
                 'message' => 'Data pengguna berhasil diperbarui',
-                'data' => $user
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'image' => $user->image ? url('storage/' . $user->image) : null,
+                ],
             ], 200);
         } else {
             return response()->json([

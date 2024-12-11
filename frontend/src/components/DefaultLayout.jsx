@@ -9,57 +9,35 @@ import { getCategories } from "../api/categoriesApi";
 import { getMagnitudes } from "../api/magnitudesApi";
 import { getLogs } from "../api/logsApi";
 import { getStatuses } from "../api/statusesApi";
-import { getLowStockProducts, getSummary } from "../api/dashboardApi";
+import { getLowStockProducts, getTopTenProducts } from "../api/dashboardApi";
+import axiosClient from "../api/axiosClient";
 
 const DefaultLayout = () => {
     if (!localStorage.getItem("token")) {
         return <Navigate to='/guest/login' />
     }
-    const { items, categories, magnitudes, statuses, summary, lowStockProducts, user, setItems, setCategories, setMagnitudes, setLogs, setStatuses, setSummary, setLowStockProducts } = useStateContext();
+    const { items, categories, magnitudes, statuses, logs, lowStockProducts, topTenProducts, user, setItems, setCategories, setMagnitudes, setLogs, setStatuses, setLowStockProducts, setTopTenProducts } = useStateContext();
     const [isLoading, setIsLoading] = useState(true);
 
-    const fetchItems = async () => {
-        const data = await getItems();
-        setItems(data.data);
-    }
-    const fetchCategories = async () => {
-        const data = await getCategories();
-        setCategories(data.data);
-    }
-    const fetchMagnitudes = async () => {
-        const data = await getMagnitudes();
-        setMagnitudes(data.data);
-    }
     const fetchLogs = async () => {
         const data = await getLogs();
         setLogs(data.data);
     }
-    const fetchStatuses = async () => {
-        const data = await getStatuses();
-        setStatuses(data.data);
-    }
-    const fetchSummary = async () => {
-        const data = await getSummary();
-        setSummary({
-            total_categories: data.TotalCategory,
-            total_products: data.TotalProduct,
-            total_products_in: data.TotalProductIn,
-            total_products_out: data.TotalProductOut,
-        })
-    }
-    const fetchLowStockProducts = async () => {
-        const data = await getLowStockProducts();
-        setLowStockProducts(data.LowQuantityStock);
-    }
 
     const fetchAllData = async () => {
-        fetchItems();
-        fetchCategories();
-        fetchMagnitudes();
-        fetchLogs();
-        fetchStatuses();
-        fetchSummary();
-        fetchLowStockProducts();
+        const data = await axiosClient.get('/all').then(res => {
+            return res.data.data;
+        }).catch(err => {
+            console.log(err);
+            return err;
+        })
+        setItems(data.items);
+        setCategories(data.categories);
+        setMagnitudes(data.magnitudes);
+        setLogs(data.logs);
+        setStatuses(data.statuses);
+        setLowStockProducts(data.lowStock);
+        setTopTenProducts(data.topTen);
     }
 
     useEffect(() => {
@@ -71,7 +49,7 @@ const DefaultLayout = () => {
     }, [items])
 
     useEffect(() => {
-        if (categories.length > 0 && magnitudes.length > 0 && statuses.length > 0 && summary.total_categories >= 0 && user) {
+        if (categories.length > 0 && magnitudes.length > 0 && statuses.length > 0 && user) {
             setIsLoading(false);
         }
     }, [categories, magnitudes, statuses, user])

@@ -12,7 +12,6 @@ export async function login(payload) {
 
 export async function register(payload) {
     return await axiosClient.post('/register', payload).then((res) => {
-        console.log(res);
         return res;
     }).catch((err) => {
         console.log(err);
@@ -22,7 +21,6 @@ export async function register(payload) {
 
 export async function getUser() {
     return await axiosClient.get('/user').then((res) => {
-        console.log(res);
         return res;
     }).catch((err) => {
         console.log(err);
@@ -37,9 +35,19 @@ export async function updateUser(id, payload) {
         }
     }).then((res) => {
         console.log(res);
+        res.data.data.image = res.data.data.image.replace("http://localhost:8000/storage/", "");
         return res;
     }).catch((err) => {
         console.log(err);
         return err;
     })
+}
+
+export async function logout() {
+    return await axiosClient.post('/logout').then((res) => {
+        return res;
+    }).catch((err) => {
+        console.log(err);
+        return err;
+    });
 }

@@ -7,19 +7,16 @@ const StateContext = createContext({
     magnitudes: [],
     logs: [],
     statuses: [],
-    summary: {
-        total_categories: -1,
-        total_products: -1,
-        total_products_in: -1,
-        total_products_out: -1,
-    },
+    lowStockProducts: [],
+    topTenProducts: [],
     setUser: () => {},
     setItems: () => {},
     setCategories: () => {},
     setMagnitudes: () => {},
     setLogs: () => {},
     setStatuses: () => {},
-    setSummary: () => {},
+    setLowStockProducts: () => {},
+    setTopTenProducts: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
@@ -29,16 +26,11 @@ export const ContextProvider = ({ children }) => {
     const [magnitudes, setMagnitudes] = useState([]);
     const [logs, setLogs] = useState([]);
     const [statuses, setStatuses] = useState([]);
-    const [summary, setSummary] = useState({
-        total_categories: -1,
-        total_products: -1,
-        total_products_in: -1,
-        total_products_out: -1,
-    });
     const [lowStockProducts, setLowStockProducts] = useState([]);
+    const [topTenProducts, setTopTenProducts] = useState([]);
 
     return (
-        <StateContext.Provider value={{ user, items, categories, magnitudes, logs, statuses, summary, lowStockProducts, setUser, setItems, setCategories, setMagnitudes, setLogs, setStatuses, setSummary, setLowStockProducts }}>
+        <StateContext.Provider value={{ user, items, categories, magnitudes, logs, statuses, lowStockProducts, topTenProducts, setUser, setItems, setCategories, setMagnitudes, setLogs, setStatuses, setLowStockProducts, setTopTenProducts }}>
             {children}
         </StateContext.Provider>
     )
