@@ -35,7 +35,9 @@ export async function updateUser(id, payload) {
         }
     }).then((res) => {
         console.log(res);
-        res.data.data.image = res.data.data.image.replace("http://localhost:8000/storage/", "");
+        if (res.data.data.image) {
+            res.data.data.image = res.data.data.image.replace("http://localhost:8000/storage/", "");
+        }
         return res;
     }).catch((err) => {
         console.log(err);
