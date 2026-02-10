@@ -10,7 +10,7 @@
     - Fadilah Akbar
 - Backend
     - Luthfi Satrio Wicaksono
-    - AisAis Laksana
+    - Ais Laksana
 
 
 ## Deskripsi Aplikasi
